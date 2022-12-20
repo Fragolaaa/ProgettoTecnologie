@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-
+//to do: IL SERVER DEVE GESTIRE SOLO LA COMUNICAZIONE TRA I CLIENT E DIRGLI COSA FARE! qui troppa roba!!!
 public class game {
    
     static final int handSize = 7;
