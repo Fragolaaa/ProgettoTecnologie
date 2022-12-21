@@ -3,26 +3,26 @@ import java.util.ArrayList;
 //to do: IL SERVER DEVE GESTIRE SOLO LA COMUNICAZIONE TRA I CLIENT E DIRGLI COSA FARE! qui troppa roba!!!
 public class game {
    
+    public giocatori[];
     public enum Direction { FORWARDS, BACKWARDS };
 
     private GameState state;//oggetto per rappresentare lo stato del gioco in ogni momento
 
     //variabili che caratterizzano lo stato di gioco
 
-    Direction direction;
-    int currPlayer;
+    Direction direction;//turno
+    int currPlayer;//giocatore di turno
     UnoPlayer.Color calledColor;//colore della carta 
     UnoPlayer.Color mostRecentColorCalled[];//colore dell'ultima carta giocata
 
     /**
      * Costruttore principale 
-     * @param scoreboard segnapunti con nomi dei giocatori in ordine
+     * @scoreboard segnapunti con nomi dei giocatori in ordine
      * @param playerClassList[] vettore di stringhe contenente per implementazione interfaccia
      */
     public Game() {
         direction = Direction.FORWARDS;
-        currPlayer =
-            new java.util.Random().nextInt(scoreboard.getNumPlayers());
+        currPlayer = new java.util.Random();//.nextInt(scoreboard.getNumPlayers());
         calledColor = UnoPlayer.Color.NONE;
     }
 
@@ -34,7 +34,7 @@ public class game {
      */
     public int getNextPlayer() { //Tania: questo è ok
         if (direction == Direction.FORWARDS) {//se turno va avanti
-            return (currPlayer + 1) % scoreboard.getNumPlayers();
+            return (currPlayer + 1); //% scoreboard.getNumPlayers();
         }
         else {
             if (currPlayer == 0) {
