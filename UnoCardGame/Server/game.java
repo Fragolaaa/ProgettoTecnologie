@@ -18,7 +18,7 @@ public class game {
      * @param scoreboard segnapunti con nomi dei giocatori in ordine
      * @param playerClassList[] vettore di stringhe contenente per implementazione interfaccia
      */
-    public Game(ArrayList<String> playerClassList) {
+    public Game() {
         direction = Direction.FORWARDS;
         currPlayer =
             new java.util.Random().nextInt(scoreboard.getNumPlayers());
