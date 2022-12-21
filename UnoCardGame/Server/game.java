@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+//questa classe gestisce il gioco, i vari cambio giro etc;
 //to do: IL SERVER DEVE GESTIRE SOLO LA COMUNICAZIONE TRA I CLIENT E DIRGLI COSA FARE! qui troppa roba!!!
 public class game {
    
