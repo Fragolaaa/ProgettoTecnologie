@@ -10,7 +10,7 @@ public class game extends Thread {
     private HashMap clients = null;
     private HashMap games = null;
     private int num_connected = 0;
-    private int max_connections = 4;
+    private int max_connections;
     private boolean listening = false;
     private String direction="forwards";
     private String currentColor="";
@@ -167,7 +167,7 @@ public class game extends Thread {
             }
         }
         //dico al giocatore che deve prendere n carte, funziona in caso di +2, +4 o pescata random per mancanza colore/numero
-        sendMessage(player, rec, mess);
+        sendMessage(player, mess);
     }
 
 
