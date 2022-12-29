@@ -12,6 +12,8 @@ public class game extends Thread {
     private int num_connected = 0;
     private int max_connections = 4;
     private boolean listening = false;
+    private String direction="forwards";
+    private currentColor="";
     
     public int addClient(threadHandler client) {
         if (clients.containsKey(client.name)) {
@@ -159,7 +161,25 @@ public class game extends Thread {
                 "###new_game_restarted###board="+game.getRotatedBoard(game.getBoard())+"###turn="+game.getTurn()+"###");
     }
     
-    public void gameMove(/*... */) {
-        
+    public void reverse(String direction){
+        if(direction.equals("forwards"))
+            direction="backwards";
+        else if(direction.equals("backwards"))
+            direction="forwards";
     }
+
+    public void changeColor(String color){
+        currentColor=color;
+    }
+
+    public void skip(String player){
+            //prendo il giocatore che ha messo lo skip e skippo il prossimo nella lista 
+    }
+
+    public void drawCards(String player){
+        //dico al giocatore che deve prendere n carte, funziona in caso di +2, +4 o pescata random per mancanza colore/numero
+
+    }
+
+
 } 
