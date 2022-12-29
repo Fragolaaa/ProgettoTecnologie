@@ -1,9 +1,9 @@
 package Server;
-
+//questa classe si occupa di cercare i vari giocatori
 import java.io.IOException;
 import java.net.ServerSocket;
 
-public class FindClients extends Thread {
+public class findClients extends Thread {
     private MyCheckersServer server = null;
     private ServerSocket serverSocket = null;
     private boolean keepLooking = true;
@@ -22,7 +22,7 @@ public class FindClients extends Thread {
         while (keepLooking) {
             try {
                 MyCheckersServerThread newThread = new MyCheckersServerThread(server, serverSocket.accept());
-                newThread.start();
+                newThread.start(); //se trovo un giocatore
             } catch(IOException e) {}
         }
     }

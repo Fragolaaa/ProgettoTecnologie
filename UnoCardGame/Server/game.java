@@ -1,67 +1,165 @@
-import java.util.ArrayList;
-//questa classe gestisce il gioco, i vari cambio giro etc;
-//to do: IL SERVER DEVE GESTIRE SOLO LA COMUNICAZIONE TRA I CLIENT E DIRGLI COSA FARE! qui troppa roba!!!
-public class game {
-   
-    private giocatori[];
-    public enum Direction { FORWARDS, BACKWARDS };
+package Server;
 
-    private GameState state;//oggetto per rappresentare lo stato del gioco in ogni momento
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.util.HashMap;
 
-    //variabili che caratterizzano lo stato di gioco
-
-    Direction direction;//turno
-    int currPlayer;//giocatore di turno
-    UnoPlayer.Color calledColor;//colore della carta 
-    UnoPlayer.Color mostRecentColorCalled[];//colore dell'ultima carta giocata
-
-    /**
-     * Costruttore principale 
-     * @scoreboard segnapunti con nomi dei giocatori in ordine
-     * @param playerClassList[] vettore di stringhe contenente per implementazione interfaccia
-     */
-    public Game() {
-        direction = Direction.FORWARDS;
-        currPlayer = new java.util.Random();//.nextInt(scoreboard.getNumPlayers());
-        calledColor = UnoPlayer.Color.NONE;
-    }
-
-    /**
-     * ritorna il giocatore successivo 
-     * in caso di direzione in avanti
-     * giocatore precedente 
-     * in caso di direzione indietro(non è avanti)
-     */
-    public int getNextPlayer() { //Tania: questo è ok
-        if (direction == Direction.FORWARDS) {//se turno va avanti
-            return (currPlayer + 1); //% scoreboard.getNumPlayers();
+public class game extends Thread {
+    private ServerSocket serverSocket = null;
+    private findClients clientListener = null;
+    private HashMap clients = null;
+    private HashMap games = null;
+    private int num_connected = 0;
+    private int max_connections = 4;
+    private boolean listening = false;
+    
+    public int addClient(threadHandler client) {
+        if (clients.containsKey(client.name)) {
+            System.err.println("Name already taken");
+            return 2;
+        } else if (num_connected >= max_connections) {
+            System.err.println("Too many connections!");
+            return 1;
+        } else {
+            clients.put(client.name, client);
+            num_connected += 1;
+            sendClientList();//invio la lista dei giocatori connessi agli altri giocatori
+            return 0;
         }
-        else {
-            if (currPlayer == 0) {
-                return scoreboard.getNumPlayers() - 1;
+    }
+    
+    public void removeClient(threadHandler client) {
+        if (clients.containsKey(client.name)) {
+            clients.remove(client.name); //rimuovo il giocatore dalla lista
+            num_connected -= 1;
+            sendClientList();//invio la lista dei giocatori connessi agli altri giocatori
+        } else {
+            System.err.println("Player does not exist");
+        }
+    }
+    
+    private void sendClientList() {
+        String[] clientIPList = new String[clients.size()];
+        threadHandler[] clientsList = (threadHandler[]) clients.values().toArray(new threadHandler[0]);
+        String names = "###name_list=";
+        
+        for(int n = 0; n < clientsList.length; n++) {
+            clientIPList[n] = String.valueOf(clientsList[n].getSocket().getRemoteSocketAddress()) + " " + clientsList[n].name;
+            names += clientsList[n].name + ",";
+        }
+        names = names.substring(0, names.length()-1) + "###";
+        gui.writeClientList(clientIPList);
+        
+        for(int n = 0; n < clientsList.length; n++) {
+            if (clientsList[n] != null) {
+                clientsList[n].sendMessage("server", names);
             }
-            else {
-                return currPlayer - 1;
+        }
+    }
+    
+    public int startListener(int port) {
+        try {
+            serverSocket = new ServerSocket(port);
+            clients = new HashMap();
+            games = new HashMap();
+            clientListener = new FindClients(this, serverSocket);
+            clientListener.start();
+            listening = true;
+            return 1;
+        } catch (IOException e) {
+            System.err.println("Could not listen on port: " + port);
+            return 0;
+        } catch (IllegalArgumentException e) {
+            System.err.println("Bad port");
+            return 0;
+        }
+    }
+    
+    public int stopListening() {
+        try {
+            if (listening) {
+                for (threadHandler client : (threadHandler[]) clients.values().toArray(new threadHandler[0])) {
+                    client.sendMessage("server", "###disconnected###");
+                    client.kill();
+                }
+                clientListener.kill();
+                clientListener = null;
+                serverSocket.close();
+                gui.writeClientList(new String[0]);
+                clients.clear();
+                games.clear();
+                num_connected = 0;
+                listening = false;
             }
+            return 1;
+        } catch (IOException e) {
+            System.err.println("Could not close server.");
+            return 0;
         }
     }
-
-    /**
-     * avanza al prossimo giocatore
-     */
-    void advanceToNextPlayer() { //Tania: ok
-        currPlayer = getNextPlayer();
-    }
-
-    /**
-     * cambia direzione gioco(cambio turno)
-     */
-    void reverseDirection() { //Tania: ok
-        if (direction == Direction.FORWARDS) {
-            direction = Direction.BACKWARDS;
-        }
-        else {
-            direction = Direction.FORWARDS;
+    
+    public void sendMessage(String reciever, String sender, String message) {
+        if (clients.containsKey(reciever)) {
+            threadHandler threadReciever = (threadHandler) clients.get(reciever);
+            threadReciever.sendMessage(sender, message);
+        } else if (reciever.equals("all")) {
+            threadHandler[] clientsList = (threadHandler[]) clients.values().toArray(new threadHandler[0]);
+            for (threadHandler c : clientsList) {
+                c.sendMessage(sender, message);
+            }
+        } else {
+            System.err.println("Error sending message to " + reciever);
         }
     }
-}
+    
+    public void newGame(String client1, String client2) {
+        String gameString = "";
+        if (games.containsKey(client1+":"+client2)) {
+            gameString = client1+":"+client2;
+        } else if (games.containsKey(client2+":"+client1)) {
+            gameString = client2+":"+client1;
+        }
+        
+        if (!gameString.equals("")) {
+            table game = (MyCheckersGame) games.get(gameString);
+            String board;
+            if (gameString.substring(0, gameString.indexOf(":")).equals(client1)) {
+                board = game.getBoard();
+            } else {
+                board = game.getRotatedBoard(game.getBoard());
+            }
+            sendMessage(client1, client2, "###game_already_exists###board="+board+"###turn="+game.getTurn()+"###");
+        } else {
+            table game = new table(client1, client2);
+            games.put(client1+":"+client2, game);
+            sendMessage(client1, client2, "###new_game_started###board="+game.getBoard()+"###");
+        }
+    }
+    
+    public void endGame(String loser, String winner) {
+        String gameString = "";
+        if (games.containsKey(loser+":"+winner)) {
+            gameString = loser+":"+winner;
+        } else if (games.containsKey(winner+":"+loser)) {
+            gameString = winner+":"+loser;
+        } else {
+            System.err.println("game you are trying to end does not exist");
+        }
+        
+        sendMessage(winner, loser, "###you_won###");
+        games.remove(gameString);
+    }
+    
+    public void restartGame(String client1, String client2) {
+        table game = new table(client1, client2);
+        games.put(client1+":"+client2, game);
+        sendMessage(client1, client2,
+                "###new_game_restarted###board="+game.getBoard()+"###turn="+game.getTurn()+"###");
+        sendMessage(client2, client1,
+                "###new_game_restarted###board="+game.getRotatedBoard(game.getBoard())+"###turn="+game.getTurn()+"###");
+    }
+    
+    public void gameMove(/*... */) {
+        
+    }
+} 
