@@ -6,14 +6,14 @@ import java.util.HashMap;
 
 public class game extends Thread {
     private ServerSocket serverSocket = null;
-    private findClients clientListener = null;
+    private FindClients clientListener = null;
     private HashMap clients = null;
     private HashMap games = null;
     private int num_connected = 0;
     private int max_connections = 4;
     private boolean listening = false;
     private String direction="forwards";
-    private currentColor="";
+    private String currentColor="";
     
     public int addClient(threadHandler client) {
         if (clients.containsKey(client.name)) {
@@ -114,28 +114,8 @@ public class game extends Thread {
         }
     }
     
-    public void newGame(String client1, String client2) {
-        String gameString = "";
-        if (games.containsKey(client1+":"+client2)) {
-            gameString = client1+":"+client2;
-        } else if (games.containsKey(client2+":"+client1)) {
-            gameString = client2+":"+client1;
-        }
+    public void newGame(String client1, String client2) { //da modoficare per più host
         
-        if (!gameString.equals("")) {
-            table game = (MyCheckersGame) games.get(gameString);
-            String board;
-            if (gameString.substring(0, gameString.indexOf(":")).equals(client1)) {
-                board = game.getBoard();
-            } else {
-                board = game.getRotatedBoard(game.getBoard());
-            }
-            sendMessage(client1, client2, "###game_already_exists###board="+board+"###turn="+game.getTurn()+"###");
-        } else {
-            table game = new table(client1, client2);
-            games.put(client1+":"+client2, game);
-            sendMessage(client1, client2, "###new_game_started###board="+game.getBoard()+"###");
-        }
     }
     
     public void endGame(String loser, String winner) {
@@ -174,11 +154,20 @@ public class game extends Thread {
 
     public void skip(String player){
             //prendo il giocatore che ha messo lo skip e skippo il prossimo nella lista 
+        
     }
 
     public void drawCards(String player){
+        String mess="###Draw_";
+        String rec;
+        // Print keys
+        for (String i : clients.keySet()) {
+            if(i.equals(player)){
+                rec=clients[i+1];
+            }
+        }
         //dico al giocatore che deve prendere n carte, funziona in caso di +2, +4 o pescata random per mancanza colore/numero
-
+        sendMessage(player, rec, mess);
     }
 
 

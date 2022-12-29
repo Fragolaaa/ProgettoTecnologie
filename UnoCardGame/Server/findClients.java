@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.net.ServerSocket;
 
 public class findClients extends Thread {
-    private MyCheckersServer server = null;
+    private Game server = null;
     private ServerSocket serverSocket = null;
     private boolean keepLooking = true;
     
-    public FindClients(MyCheckersServer server, ServerSocket serverSocket) {
+    public FindClients(Game server, ServerSocket serverSocket) {
         this.server = server;
         this.serverSocket = serverSocket;
     }
@@ -21,7 +21,7 @@ public class findClients extends Thread {
     public void run() {
         while (keepLooking) {
             try {
-                MyCheckersServerThread newThread = new MyCheckersServerThread(server, serverSocket.accept());
+                threadHandler newThread = new threadHandler(server, serverSocket.accept());
                 newThread.start(); //se trovo un giocatore
             } catch(IOException e) {}
         }

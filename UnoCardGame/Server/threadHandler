@@ -64,19 +64,24 @@ public class threadHandler extends Thread {
                         server.sendMessage("all", name, "###potential_chat_disconnected###");
                         break;
                     }
-                    else if (message.content.contains("###name=")) {
+                    else if (message.content.contains("###name=")) { //il client vuole inviare il suo nome
                         name = message.content.substring(message.content.indexOf("=")+1, message.content.length()-3);
                         
                         int res = server.addClient(this);
-                        if (res == 0) {
+                        if (res == 0) { 
                             ready = true;
                         } else if (res == 1) {
-                            sendMessage("server", "###too_many_connections###");
+                            sendMessage("server", "###too_many_connections###");//se superato numero giocatori
                             break;
                         } else if (res == 2) {
-                            sendMessage("server", "###name_already_taken###");
+                            sendMessage("server", "###name_already_taken###"); //se nome già occupato
                             break;
                         }
+                    }
+                    else if (message.content.contains("###players=")) { //il client vuole il numero di giocatori
+                        
+                        
+                        FindClients();
                     }
                 } else {
                     if (ready) {
@@ -84,16 +89,16 @@ public class threadHandler extends Thread {
                             server.newGame(name, message.recip);
                         }
                         else if (message.content.contains("###reverse")) { 
-                            server.reverse(name, message.recip, message.content);
+                            server.reverse(name, message.recip);
                         }
                         else if (message.content.contains("###change_color")) { 
-                            server.change_color(name, message.recip, message.content);
+                            server.change_color(name, message.recip);
                         }
                         else if (message.content.contains("###skip")) { 
-                            server.skip(name, message.recip, message.content);
+                            server.skip(name, message.recip);
                         }
                         else if (message.content.contains("###draw_cards")) { 
-                            server.gameMove(name, message.recip, message.content);
+                            server.drawCards(name, message.recip);
                         }
                         else if (message.content.equals("###game_over###you_win###")) {
                             server.endGame(name, message.recip);//avviso il giocatore che ha vinto e che il gioco è finito
