@@ -1,13 +1,8 @@
 public static void main(String[] args) {
-    ArrayList<> giocatori[];
-
 
     Game table=new Game();
-    //aspetto che si siano collegati tot giocatori e poi comincio il gioco
-    if(giocatori.length>n)
-    game.start;
-
-
+    //devo chiedere al primo host quanti giocatori sono previsti, finchè non si sono collegati abbastanza giocatori il gioco non parte.
+    
 
     
 }
