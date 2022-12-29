@@ -7,7 +7,9 @@ import java.util.HashMap;
 public class game extends Thread {
     private ServerSocket serverSocket = null;
     private FindClients clientListener = null;
-    private HashMap clients = null; //associo il nome all'ip con hashmap
+    private HashMap clients = null; //associo il nome all'ip con hashmap  
+
+    //NON USARE HASHMAP MA ARRAY DI CONNESSIONi
     private int num_connected = 0;
     private int max_connections;
     private boolean listening = false;
