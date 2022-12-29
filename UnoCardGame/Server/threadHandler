@@ -86,25 +86,25 @@ public class threadHandler extends Thread {
                 } else {
                     if (ready) {
                         if (message.content.equals("###new_game_window###")) {
-                            server.newGame(name, message.recip);
+                            server.newGame(name, message.recip); //nuovo gioco
                         }
                         else if (message.content.contains("###reverse")) { 
-                            server.reverse(name, message.recip);
+                            server.reverse(name, message.recip); //cambio turno
                         }
                         else if (message.content.contains("###change_color")) { 
-                            server.change_color(name, message.recip);
+                            server.change_color(name, message.recip); //cambio colore
                         }
                         else if (message.content.contains("###skip")) { 
-                            server.skip(name, message.recip);
+                            server.skip(name, message.recip); //skippo il turno del giocatore successivo
                         }
                         else if (message.content.contains("###draw_cards")) { 
-                            server.drawCards(name, message.recip);
+                            server.drawCards(name, message.recip); //quando il giocatore deve pescare
                         }
                         else if (message.content.equals("###game_over###you_win###")) {
                             server.endGame(name, message.recip);//avviso il giocatore che ha vinto e che il gioco è finito
                         }
                         else if (message.content.equals("###new_game_restarted###")) {
-                            server.restartGame(name, message.recip);
+                            server.restartGame(name, message.recip); //ricomincio il gioco
                         }
                         
                         else {

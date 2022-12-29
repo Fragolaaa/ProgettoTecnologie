@@ -7,8 +7,7 @@ import java.util.HashMap;
 public class game extends Thread {
     private ServerSocket serverSocket = null;
     private FindClients clientListener = null;
-    private HashMap clients = null;
-    private HashMap games = null;
+    private HashMap clients = null; //associo il nome all'ip con hashmap
     private int num_connected = 0;
     private int max_connections;
     private boolean listening = false;
@@ -146,14 +145,18 @@ public class game extends Thread {
             direction="backwards";
         else if(direction.equals("backwards"))
             direction="forwards";
+        //cambio la direzione del giro e poi passo al prossimo client in lista
     }
 
     public void changeColor(String color){
         currentColor=color;
+        //passo al prossimo client
+    
     }
 
     public void skip(String player){
             //prendo il giocatore che ha messo lo skip e skippo il prossimo nella lista 
+
         
     }
 
