@@ -12,7 +12,7 @@ public class CardVisitor {
         this.game = game;
     }
 
-    public void visit(ColorChangerCard colorChangerCard){
+    public void visit(ChangeColorCard ChangeColorCard){
         //do something with colorChangedCard
     }
 
@@ -20,6 +20,6 @@ public class CardVisitor {
 
     }
 
-    public void visit(SpecialCard specialCard) {
+    public void visit(WildCards WildCards) {
     }
 }
