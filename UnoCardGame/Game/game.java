@@ -75,12 +75,12 @@ public class game extends Thread{
      * @param notify
      * @param client the client not to update
      */
-    private void updateAllPlayers(Notify notify, Client client){
+    private void updateAllPlayers(Notify notify, Client client){ //updates all clients except one
         for (PlayerState player : players) {
             if(!player.client.equals(client)) player.client.sendNotify(notify);
         }
     }
-    private void updateAllPlayers(Notify notify){
+    private void updateAllPlayers(Notify notify){ //updates all clients
         for (PlayerState player : players) {
             player.client.sendNotify(notify);
         }
