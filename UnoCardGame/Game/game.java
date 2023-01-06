@@ -14,7 +14,7 @@ public class game extends Thread{
     private final int numberOfStartingCards = 7;
 
     private ArrayList<PlayerState> players;
-
+    private int direction=0; //0->forwards; 1->backwards;
     public game(ArrayList<Client> clients){
         int id = 0;
         for (Client client : clients) {
@@ -71,9 +71,20 @@ public class game extends Thread{
 
         
     }
+    public void nextPlayer(int currentPlayer,ArrayList<PlayerState> players) {
+        if(direction==0){
+
+<<<<<<< HEAD
+        }
+        else if(direction==1){
+
+        }
+        
+    }
+=======
 
 
-
+>>>>>>> 7a786d639475cd62faea936b32f49764f6fd0b74
     /**
      * @param notify
      * @param client the client not to update
