@@ -10,7 +10,7 @@ namespace Client.GameObjects
     {
         public CardColor Color { get; set; }
         public CardValue Value { get; set; }
-        public int Score { get; set; }
+        
     //restituisco il lavore della carta
         public string DisplayValue 
         {
