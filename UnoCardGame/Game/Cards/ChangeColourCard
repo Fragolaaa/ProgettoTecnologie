@@ -1,4 +1,4 @@
-package Game.cards;
+package Game.Cards;
 
 public class ChangeColorCard extends Card{
     int color = -1; //colore selezionato

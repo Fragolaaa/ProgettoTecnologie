@@ -1,4 +1,4 @@
-package Game.cards;
+package Game.Cards;
 
 public class NumberCard extends Card{ // 0 - 9
     public int value; //0 - 9

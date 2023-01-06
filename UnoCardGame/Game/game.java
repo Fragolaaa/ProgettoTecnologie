@@ -55,7 +55,7 @@ public class game extends Thread{
 
     /**
      * @param notify
-     * @param client the client not to upldate
+     * @param client the client not to update
      */
     private void updateAllPlayers(Notify notify, Client client){
         for (PlayerState player : players) {
