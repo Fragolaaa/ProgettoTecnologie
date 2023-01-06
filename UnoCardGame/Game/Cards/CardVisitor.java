@@ -1,4 +1,4 @@
-package Game.cards;
+package Game.Cards;
 
 import Game.Client;
 import Game.Game;
