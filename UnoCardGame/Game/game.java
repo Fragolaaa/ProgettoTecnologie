@@ -38,14 +38,15 @@ public class game extends Thread{
         for (PlayerState playerState : players) {
             playerState.notifySelfState();
         }
-        //si dice chi comincia
-    }
+    
 
+    }
+    
     public void setCard(Client client, Card card) {
         String msg;
        
          //controllare se posso settare la carta
-        //posso settare se: colore/numero uguale a quella prima o una wildCard
+        //posso settare se: colore/numero uguale a quella prima o una cambio colore
         if(card.color == downCards[downCards.size()-1].color || 
         card.type == downCards[downCards.size()-1].type ||
          card.color == -1){
@@ -70,6 +71,8 @@ public class game extends Thread{
 
         
     }
+
+
 
     /**
      * @param notify
