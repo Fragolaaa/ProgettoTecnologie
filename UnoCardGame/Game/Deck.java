@@ -1,0 +1,63 @@
+package Game;
+
+//il server gestisce i deck di tutti i giocatori
+
+import java.util.*;
+
+import Game.cards.Card;
+import Game.cards.NumberCard;
+
+public class Deck {
+    private ArrayList<Card> deck;
+
+    public Deck(){
+        NumberCard blue1 = new NumberCard();
+        blue1.color = 1;
+        blue1.value = 1;
+
+    //deck ha tutte le carte da 0 a 9 per ogni colore
+
+        for(int i = 0; i < 4; i++){
+            for(int j = 0; j <= 9; j++){
+                NumberCard nb = new NumberCard();
+                nb.color = i;
+                nb.value = j;
+                deck.add(nb);
+            }
+        }
+       
+    //deck ha tutte le carte +2, reverse e skip per ogni colore
+
+      for(int i = 0; i < 4; i++){
+            for(int j = 0; j <= 2; j++){  //0->+2; 1->reverse; 2->skip
+                WildCards wd = new WildCards();
+                wd.color = i;
+                wd.type = j;
+                deck.add(wd);
+            }
+        }
+
+    //deck ha tutte le carte cambio colore e +4
+
+     for(int i = 0; i < 4; i++){
+            for(int j = 0; j < 2; j++){  //0->+4; 1->cambio colore
+                ChangeColorCard cg = new ChangeColorCard();
+                cg.type = j;
+                deck.add(cg);
+            }
+        }
+
+
+//deck completo
+    }
+
+    public void shuffle(){
+        Collections.shuffle(deck);
+    }
+
+    public Card getTopCard() {
+        Card topCard = deck.get(deck.size() - 1);
+        deck.remove(deck.size() - 1);
+        return topCard;
+    }
+}

@@ -1,3 +1,6 @@
+//questa va rimossa, al client non serve, il server dirà al client il suo deck...
+
+
 public class CardDeck //classe che gestisce il deck di carte dell'utente
 {
     public List<Card> Cards { get; set; }

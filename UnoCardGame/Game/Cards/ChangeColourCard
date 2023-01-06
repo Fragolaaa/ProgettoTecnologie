@@ -2,7 +2,7 @@ package Game.Cards;
 
 public class ChangeColorCard extends Card{
     int color = -1; //colore selezionato
-
+    int type; //0 = +4,  1 = cambio colore;
     @Override
     public void accept(CardVisitor visitor) {
         visitor.visit(this);

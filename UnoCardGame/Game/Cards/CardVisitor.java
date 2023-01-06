@@ -13,7 +13,7 @@ public class CardVisitor {
     }
 
     public void visit(ChangeColorCard ChangeColorCard){
-        //do something with colorChangedCard
+        //fai qualcosa
     }
 
     public void visit(NumberCard numberCard) {
