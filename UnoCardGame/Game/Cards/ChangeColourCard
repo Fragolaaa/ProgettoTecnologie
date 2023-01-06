@@ -1,0 +1,11 @@
+package Game.cards;
+
+public class ChangeColorCard extends Card{
+    int color = -1; //colore selezionato
+
+    @Override
+    public void accept(CardVisitor visitor) {
+        visitor.visit(this);
+    }
+
+}
