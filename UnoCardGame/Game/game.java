@@ -42,15 +42,33 @@ public class game extends Thread{
     }
 
     public void setCard(Client client, Card card) {
-        downCards.add(card); //l'ultima carta inserita e' sempre in posizione card.size() - 1
-        NotifyPlayerHandChanged notifyPlayerHandChanged = new NotifyPlayerHandChanged();
-        notifyPlayerHandChanged.howManyCardsChanged = -1;
-        updateAllPlayers(notifyPlayerHandChanged, client);
-        NotifyCardChanged notifyCardChanged = new NotifyCardChanged();
-        notifyCardChanged.card = card;
-        updateAllPlayers(notifyCardChanged);
-        //controllare se posso settare la carta
+        String msg;
+       
+         //controllare se posso settare la carta
+        //posso settare se: colore/numero uguale a quella prima o una wildCard
+        if(card.color == downCards[downCards.size()-1].color || 
+        card.type == downCards[downCards.size()-1].type ||
+         card.color == -1){
+                msg="Action successfully saved";
+                //aggiungo la carta
+            downCards.add(card); //l'ultima carta inserita e' sempre in posizione card.size() - 1
+            
+            NotifyPlayerHandChanged notifyPlayerHandChanged = new NotifyPlayerHandChanged();
+            notifyPlayerHandChanged.howManyCardsChanged = -1;
+            updateAllPlayers(notifyPlayerHandChanged, client);
+            NotifyCardChanged notifyCardChanged = new NotifyCardChanged();
+            notifyCardChanged.card = card;
+            updateAllPlayers(notifyCardChanged);
+            
+        }
+        else {
+            msg="You can't place this card, please try with another one...";
+        }
+
         //mandare la risposta al client se puo' o non puo' settare la carta
+        player.client.sendNotify(msg);
+
+        
     }
 
     /**
