@@ -3,6 +3,7 @@ package Game;
 import java.util.ArrayList;
 
 import Game.Cards.Card;
+import Game.Cards.CardVisitor;
 import Game.Cards.NumberCard;
 import Game.Cards.WildCards;
 import Game.Actions.*;
@@ -41,26 +42,50 @@ public class Game extends Thread{
     
 
     }
+    private Card getLastCard(){
+        return downCards.get(downCards.size()-1);
+    }
+
+    private boolean checkCards(Card card1, Card card2){
+    
+        if(card1.color == card2.color || card1.color == -1){
+            //ok colore uguale/cambio colore
+            return true;
+        }
+        else if(card1.getClass() == card2.getClass()){
+            //controlla se numbercard
+
+            if(card1 instanceof NumberCard){
+                NumberCard nCard1 = (NumberCard)card1;
+                NumberCard nCard2 = (NumberCard)card2;
+                return nCard1.value == nCard2.value;
+                 
+            }
+            else{
+                //ok
+                return true;
+            }
+    
+        }
+        else{
+            //not ok
+            return false;
+        }
+    }
     
     public void setCard(Client client, Card card) {
-        String msg;
-        Card lastCard = downCards.get(downCards.size()-1);
-        int lastCardColor = lastCard.color;
-       
+        //controllo validità carta
+        Card lastCard= getLastCard();
+        if(checkCards(card, lastCard))
+            card.accept(new CardVisitor(this));
+        else
+            updatePlayer(new NotifyInvalidMove("Invalid card"), client);
+    
 
          //controllare se posso settare la carta
         //posso settare se: colore/numero uguale a quella prima o una cambio colore
-        if(card instanceof WildCards) //controlli su carta numero
-        {
-            //cosa fa se wildcard
-        }else if(card instanceof NumberCard){ //cosa fa se carta normale
-
-        }else{ //cambio colore/+4
-
-        }
-        if(true){
-                msg="Action successfully saved";
-                //aggiungo la carta
+        
+        
             downCards.add(card); //l'ultima carta inserita e' sempre in posizione card.size() - 1
             
             NotifyPlayerHandChanged notifyPlayerHandChanged = new NotifyPlayerHandChanged();
@@ -70,11 +95,7 @@ public class Game extends Thread{
             notifyCardChanged.card = card;
             updateAllPlayers(notifyCardChanged);
             
-        }
-        else {
-            msg="You can't place this card, please try with another one...";
-        }
-
+      
         //mandare la risposta al client se puo' o non puo' settare la carta
        
 
@@ -97,5 +118,9 @@ public class Game extends Thread{
         for (PlayerState player : players) {
             player.client.sendNotify(notify);
         }
+    }
+
+    private void updatePlayer(Notify notify, Client client){
+        client.sendNotify(notify);
     }
 }

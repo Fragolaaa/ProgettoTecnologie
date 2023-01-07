@@ -52,6 +52,8 @@ public class Deck {
            System.out.println(card + "\t" + card.color);
 
         }
+        Card card = deck.get(2);
+        System.out.println(card.getClass());
     }
 
     public void shuffle() {

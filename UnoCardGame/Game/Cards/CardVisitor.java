@@ -1,14 +1,11 @@
 package Game.Cards;
 
-import Game.Client;
 import Game.Game;
 
 public class CardVisitor {
-    private final Client client;
     private final Game game;
 
-    public CardVisitor(Client client, Game game) {
-        this.client = client;
+    public CardVisitor(Game game) {
         this.game = game;
     }
 
@@ -34,7 +31,7 @@ public class CardVisitor {
     }
 
     public void visit(WildCardSkip wildCardSkip){
-        
+
     }
 
 
