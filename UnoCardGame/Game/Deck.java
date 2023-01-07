@@ -4,8 +4,7 @@ package Game;
 
 import java.util.*;
 
-import Game.cards.Card;
-import Game.cards.NumberCard;
+import Game.Cards.*;
 
 public class Deck {
     private ArrayList<Card> deck;
@@ -49,6 +48,11 @@ public class Deck {
 
 
 //deck completo
+
+        //stampo il deck
+        for (Card card : deck) {
+            
+        }
     }
 
     public void shuffle(){

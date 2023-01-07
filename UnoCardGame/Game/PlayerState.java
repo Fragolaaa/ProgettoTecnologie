@@ -2,8 +2,9 @@ package Game;
 
 import java.util.ArrayList;
 
-import Game.cards.Card;
-import Game.notifies.NotifyPlayerState;
+import Game.Cards.*;
+import Game.Actions.*;
+import Game.Notifies.*;
 
 //salva lo stato di ogni client, aggiunge carte al suo deck
 public class PlayerState {

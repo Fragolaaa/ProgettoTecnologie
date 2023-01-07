@@ -7,9 +7,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import Game.actions.Action;
-import Game.actions.ActionVisitor;
-import Game.notifies.Notify;
+import Game.Actions.*;
+import Game.Notifies.*;
 
 public class Client extends Thread{  //ogni client è un thread
 

@@ -1,4 +1,4 @@
-package Game.notifies;
+package Game.Notifies;
 
 public class NotifyVisitor {
     
