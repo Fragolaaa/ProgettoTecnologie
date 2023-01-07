@@ -53,7 +53,7 @@ public class Deck {
 
         }
         Card card = deck.get(2);
-        System.out.println(card.getClass());
+        
     }
 
     public void shuffle() {

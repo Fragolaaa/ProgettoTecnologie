@@ -11,10 +11,10 @@ import Game.Notifies.*;
 
 public class Game extends Thread{
     private final Deck deck = new Deck();
-    private ArrayList<Card> downCards;
+    private ArrayList<Card> downCards = new ArrayList<>();
     private final int numberOfStartingCards = 7;
 
-    private ArrayList<PlayerState> players;
+    private ArrayList<PlayerState> players= new ArrayList<>();
     private int direction=0; //0->forwards; 1->backwards;
     public Game(ArrayList<Client> clients){
         int id = 0;
@@ -76,16 +76,9 @@ public class Game extends Thread{
     public void setCard(Client client, Card card) {
         //controllo validità carta
         Card lastCard= getLastCard();
-        if(checkCards(card, lastCard))
+        if(checkCards(card, lastCard)){
             card.accept(new CardVisitor(this));
-        else
-            updatePlayer(new NotifyInvalidMove("Invalid card"), client);
-    
-
-         //controllare se posso settare la carta
-        //posso settare se: colore/numero uguale a quella prima o una cambio colore
-        
-        
+            
             downCards.add(card); //l'ultima carta inserita e' sempre in posizione card.size() - 1
             
             NotifyPlayerHandChanged notifyPlayerHandChanged = new NotifyPlayerHandChanged();
@@ -95,6 +88,16 @@ public class Game extends Thread{
             notifyCardChanged.card = card;
             updateAllPlayers(notifyCardChanged);
             
+        }
+           
+        else
+            updatePlayer(new NotifyInvalidMove("Invalid card"), client);
+    
+
+         //controllare se posso settare la carta
+        //posso settare se: colore/numero uguale a quella prima o una cambio colore
+        
+        
       
         //mandare la risposta al client se puo' o non puo' settare la carta
        

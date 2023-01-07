@@ -36,9 +36,10 @@ public class Server {
     
                 //client.start();
 
-                if(clients.size() == 4){ //to do: chiedi al client quanti giocatori vuole
-                    startGame();
-                }
+                // if(clients.size() == 4){ //to do: chiedi al client quanti giocatori vuole
+                //     startGame();
+                // }
+                startGame();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -46,7 +47,8 @@ public class Server {
     }
 
     private void startGame() {
-        Game game = new Game((ArrayList) clients.subList(0, 3));
+        //(ArrayList) clients.subList(0, 3)
+        Game game = new Game(clients);
         game.start();
     }
 

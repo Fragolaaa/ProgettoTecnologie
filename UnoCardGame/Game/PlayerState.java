@@ -8,7 +8,7 @@ import Game.Notifies.*;
 
 //salva lo stato di ogni client, aggiunge carte al suo deck
 public class PlayerState {
-    private ArrayList<Card> hand;
+    private ArrayList<Card> hand = new ArrayList<>();
     private boolean isPlaying = false;
     public final Client client;
     public final int id;
