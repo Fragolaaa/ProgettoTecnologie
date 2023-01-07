@@ -61,7 +61,7 @@ public class Server {
         } catch (Exception e) {
             System.err.println("Connection Failed");
         }
-
+        Deck deck = new Deck();
         server.run(serverSocket);
     }
 }

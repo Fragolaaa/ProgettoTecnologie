@@ -14,23 +14,28 @@ public class CardVisitor {
 
     public void visit(ChangeColorCard ChangeColorCard){
         //il nuovo colore rispettare è....
-        //eventuale pescata di 4 carte
-        if(ChangeColorCard.type==0){
-            // for(int i=0; i<4;i++){ //fai pescare 4 carte al prossimo client, fai scegliere al client che ha buttato la carta il prossimo colore
-            //     client.addCardToHand(game.deck.getTopCard());
-            // }
-        }
-        else{
+     
+    }
+     
+    public void visit(ChangeColorCardDrawFour  changeColorCardDrawFour){
 
-        }
     }
 
     public void visit(NumberCard numberCard) {
         //nuovo colore/numero da rispettare
     }
-
-    public void visit(WildCards WildCards) {
-        // vedi se +2, skip o reverse
+    
+    public void visit(WildCardDrawTwo wildCardDrawTwo){
 
     }
+    
+    public void visit(WildCardReverse wildCardReverse){
+
+    }
+
+    public void visit(WildCardSkip wildCardSkip){
+        
+    }
+
+
 }

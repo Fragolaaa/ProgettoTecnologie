@@ -1,8 +1,7 @@
 package Game.Cards;
 
-public class ChangeColorCard extends Card{
-   
-    public ChangeColorCard() {
+public class ChangeColorCardDrawFour extends ChangeColorCard{
+    public ChangeColorCardDrawFour() {
         color=-1;
     }
 
@@ -10,5 +9,5 @@ public class ChangeColorCard extends Card{
     public void accept(CardVisitor visitor) {
         visitor.visit(this);
     }
-
+    
 }

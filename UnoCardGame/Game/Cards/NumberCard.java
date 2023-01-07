@@ -1,10 +1,16 @@
 package Game.Cards;
 
 public class NumberCard extends Card{ // 0 - 9
+    public NumberCard(int value, int color) {
+        this.value = value;
+        this.color = color;
+    }
+
     public int value; //0 - 9
-    public int color; //0 = red, 1 = blue, 2 = yellow, 3 = green
     @Override
     public void accept(CardVisitor visitor) {
         visitor.visit(this);
     }
+
+
 }

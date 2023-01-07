@@ -52,8 +52,10 @@ public class Game extends Thread{
         //posso settare se: colore/numero uguale a quella prima o una cambio colore
         if(card instanceof WildCards) //controlli su carta numero
         {
-            NumberCard numberCard = (NumberCard) card;
-            if(numberCard.color==)
+            //cosa fa se wildcard
+        }else if(card instanceof NumberCard){ //cosa fa se carta normale
+
+        }else{ //cambio colore/+4
 
         }
         if(true){
@@ -74,24 +76,14 @@ public class Game extends Thread{
         }
 
         //mandare la risposta al client se puo' o non puo' settare la carta
-        player.client.sendNotify(msg);
+       
 
         
     }
     public void nextPlayer(int currentPlayer,ArrayList<PlayerState> players) {
         if(direction==0){
 
-<<<<<<< HEAD
-        }
-        else if(direction==1){
-
-        }
-        
-    }
-=======
-
-
->>>>>>> 7a786d639475cd62faea936b32f49764f6fd0b74
+        }}
     /**
      * @param notify
      * @param client the client not to update
