@@ -3,6 +3,7 @@ package Game;
 import java.util.ArrayList;
 
 import Game.Cards.Card;
+import Game.Cards.NumberCard;
 import Game.Actions.*;
 import Game.Notifies.*;
 
@@ -42,12 +43,19 @@ public class Game extends Thread{
     
     public void setCard(Client client, Card card) {
         String msg;
-       
+        Card lastCard = downCards.get(downCards.size()-1);
+        int lastCardColor = lastCard.color;
+        int lastCardValue = !(lastCard instanceof NumberCard)? -1 : ((NumberCard)lastCard).value;
+        
          //controllare se posso settare la carta
         //posso settare se: colore/numero uguale a quella prima o una cambio colore
-        if(card.color == downCards[downCards.size()-1].color || 
-        card.type == downCards[downCards.size()-1].type ||
-         card.color == -1){
+        if(card instanceof NumberCard) //controlli su carta numero
+        {
+            NumberCard numberCard = (NumberCard) card;
+            if(numberCard.color==)
+
+        }
+        if(true){
                 msg="Action successfully saved";
                 //aggiungo la carta
             downCards.add(card); //l'ultima carta inserita e' sempre in posizione card.size() - 1
