@@ -1,6 +1,6 @@
 package Game.Notifies;
 
-import Game.cards.Card;
+import Game.Cards.Card;
 
 public class NotifyCardChanged extends Notify{
     public Card card;

@@ -6,8 +6,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import Game.notifies.NotifyCardChanged;
-import Game.notifies.NotifyPlayerHandChanged;
+import Game.Actions.*;
+import Game.Notifies.*;
 
 public class Server {
 

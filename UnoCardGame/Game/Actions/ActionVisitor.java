@@ -1,5 +1,4 @@
-package Game.actions;
-
+package Game.Actions;
 import Game.Client;
 import Game.Game;
 

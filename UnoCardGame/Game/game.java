@@ -2,20 +2,18 @@ package Game;
 
 import java.util.ArrayList;
 
-import Game.cards.Card;
-import Game.notifies.Notify;
-import Game.notifies.NotifyCardChanged;
-import Game.notifies.NotifyPlayerHandChanged;
-import Game.notifies.NotifyPlayerState;
+import Game.Cards.Card;
+import Game.Actions.*;
+import Game.Notifies.*;
 
-public class game extends Thread{
+public class Game extends Thread{
     private final Deck deck = new Deck();
     private ArrayList<Card> downCards;
     private final int numberOfStartingCards = 7;
 
     private ArrayList<PlayerState> players;
     private int direction=0; //0->forwards; 1->backwards;
-    public game(ArrayList<Client> clients){
+    public Game(ArrayList<Client> clients){
         int id = 0;
         for (Client client : clients) {
             players.add(new PlayerState(client, id));

@@ -1,6 +1,5 @@
-package Game.actions;
-
-import Game.cards.Card;
+package Game.Actions;
+import Game.Cards.Card;
 
 public class ActionSetCard extends Action{
     public Card card;
