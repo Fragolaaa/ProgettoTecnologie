@@ -25,16 +25,25 @@ public class Deck {
             }
         }
        
-    //deck ha tutte le carte +2, reverse e skip per ogni colore
-
-      for(int i = 0; i < 4; i++){
-            for(int j = 0; j <= 2; j++){  //0->+2; 1->reverse; 2->skip
-                WildCards wd = new WildCards();
-                wd.color = i;
-                wd.type = j;
-                deck.add(wd);
-            }
-        }
+    //deck ha tutte le carte +2
+    for(int i = 0; i < 4; i++){
+        WildCardDrawTwo wd = new WildCardDrawTwo();
+        wd.color = i;
+        deck.add(wd);
+    }
+    //deck ha tutte le carte skip
+    for(int i = 0; i < 4; i++){
+        WildCardSkip wd = new WildCardSkip();
+        wd.color = i;
+        deck.add(wd);
+}
+    //deck ha tutte le carte reverse
+    for(int i = 0; i < 4; i++){
+        WildCardReverse wd = new WildCardReverse();
+        wd.color = i;
+        deck.add(wd);
+}
+    
 
     //deck ha tutte le carte cambio colore e +4
 
@@ -51,7 +60,7 @@ public class Deck {
 
         //stampo il deck
         for (Card card : deck) {
-            
+            card.toString();
         }
     }
 
