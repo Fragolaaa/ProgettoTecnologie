@@ -161,4 +161,12 @@ public class Game extends Thread{  //to do: gestione turni, avvisa prox utente c
             players.set(players.size() - i - 1, temp);
         }
     }
+
+    public void skipPlayer() {
+        nextPlayer(currPlayer, players);
+        NotifyDeniedTurn notifyDeniedTurn = new NotifyDeniedTurn();
+        updatePlayer(notifyDeniedTurn, currPlayer);//the turn has been denied, player turn must be skipped
+
+        nextPlayer(currPlayer, players);//next player
+    }
 }

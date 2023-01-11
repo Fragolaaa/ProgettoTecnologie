@@ -48,7 +48,7 @@ public class CardVisitor { //to do: gestire cosa fanno le varie carte
 
     public void visit(WildCardSkip wildCardSkip){
         if(game.setCard(client, wildCardSkip)){
-
+            game.skipPlayer();
         }
 
     }
