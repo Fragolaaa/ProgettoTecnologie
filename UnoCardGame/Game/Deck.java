@@ -1,12 +1,14 @@
 package Game;
 
+import java.io.Serializable;
+
 //il server gestisce i deck di tutti i giocatori
 
 import java.util.*;
 
 import Game.Cards.*;
 
-public class Deck {
+public class Deck implements Serializable{
     private ArrayList<Card> deck = new ArrayList<>();
 
     public Deck() {
@@ -47,12 +49,6 @@ public class Deck {
 
         // deck completo
 
-        // stampo il deck
-        for (Card card : deck) {
-           System.out.println(card + "\t" + card.color);
-
-        }
-        Card card = deck.get(2);
         
     }
 

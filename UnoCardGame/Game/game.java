@@ -1,5 +1,6 @@
 package Game;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import Game.Cards.Card;
@@ -11,7 +12,7 @@ import Game.Cards.WildCards;
 import Game.Actions.*;
 import Game.Notifies.*;
 
-public class Game extends Thread{  //to do: gestione turni, avvisa prox utente che è il suo turno
+public class Game implements Serializable{ 
     private final Deck deck = new Deck();
     private ArrayList<Card> downCards = new ArrayList<>();
     private final int numberOfStartingCards = 7;
@@ -25,13 +26,13 @@ public class Game extends Thread{  //to do: gestione turni, avvisa prox utente c
         for (Client client : clients) {
             players.add(new PlayerState(client, id));
             client.setGame(this);
-            client.start();
+            // client.start();
             id++;
         }
     }
 
-    @Override
-    public void run(){
+
+    public void start(){
         //tutti i client nel game ricevono le proprie carte
         //dai ad ogni player la sua carta (usa un for che toglie la prima carta del mazzo e la da al player)
         for(int i = 0; i < numberOfStartingCards; i++){
@@ -43,7 +44,7 @@ public class Game extends Thread{  //to do: gestione turni, avvisa prox utente c
         for (PlayerState playerState : players) {
             playerState.notifySelfState();
         }
-        
+        downCards.add(deck.getTopCard());
         //si dice chi inizia
         nextPlayer(null, players);
 
@@ -82,7 +83,7 @@ public class Game extends Thread{  //to do: gestione turni, avvisa prox utente c
     
     public boolean setCard(Client client, Card card) { //imposta la nuova carta
         //controllo validità carta
-        Card lastCard= getLastCard();
+        Card lastCard = getLastCard();
         if(checkCards(card, lastCard)){
             card.accept(new CardVisitor(this, client));
             

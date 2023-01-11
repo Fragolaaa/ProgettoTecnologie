@@ -1,5 +1,6 @@
 package Game;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import Game.Cards.*;
@@ -7,7 +8,7 @@ import Game.Actions.*;
 import Game.Notifies.*;
 
 //salva lo stato di ogni client, aggiunge carte al suo deck
-public class PlayerState {
+public class PlayerState implements Serializable{
     private ArrayList<Card> hand = new ArrayList<>();
     private boolean isPlaying = false;
     public final Client client;

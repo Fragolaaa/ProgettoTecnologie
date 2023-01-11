@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.Scanner;
 
 import Game.Actions.ActionSetCard;
 
@@ -32,14 +33,19 @@ public class TestClient {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        ActionSetCard actionSetCard = new ActionSetCard();
+        
+        while(true){
+            
+            Scanner s = new Scanner(System.in);
+            s.nextInt();
+
+            ActionSetCard actionSetCard = new ActionSetCard();
             try {
                 objectOutputStream.writeObject(actionSetCard);
             } catch (IOException e) {
                 e.printStackTrace();
         }
-        while(true){
-            System.in.readLine();
+        
             Object genericMessage2 = null;
             try {
                 genericMessage2 = (Object) objectInputStream.readObject();
