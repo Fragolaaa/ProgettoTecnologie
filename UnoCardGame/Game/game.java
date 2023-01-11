@@ -17,6 +17,7 @@ public class Game extends Thread{  //to do: gestione turni, avvisa prox utente c
     private ArrayList<PlayerState> players= new ArrayList<>();
     private Client currPlayer;
     private int direction=0; //0->forwards; 1->backwards;
+    
     public Game(ArrayList<Client> clients){
         int id = 0;
         for (Client client : clients) {
@@ -111,8 +112,12 @@ public class Game extends Thread{  //to do: gestione turni, avvisa prox utente c
         int c=0;
         if(cp != null){ //se ho già iniziato il gioco
             for (PlayerState p : players) {
-                    if(p.client.equals(cp))
-                        c=players.indexOf(p);    
+                    if(p.client.equals(cp)){
+                        if(players.indexOf(p)==(players.size()-1))
+                            c=0;
+                        else
+                            c=players.indexOf(p); 
+                    } 
             }
         }
 
