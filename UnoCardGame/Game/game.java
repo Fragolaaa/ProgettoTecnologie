@@ -63,8 +63,7 @@ public class Game extends Thread{  //to do: gestione turni, avvisa prox utente c
             if(card1 instanceof NumberCard){
                 NumberCard nCard1 = (NumberCard)card1;
                 NumberCard nCard2 = (NumberCard)card2;
-                return nCard1.value == nCard2.value;
-                 
+                return nCard1.value == nCard2.value; 
             }
             else{
                 //ok
