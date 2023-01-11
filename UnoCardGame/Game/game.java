@@ -15,6 +15,7 @@ public class Game extends Thread{  //to do: gestione turni, avvisa prox utente c
     private final int numberOfStartingCards = 7;
 
     private ArrayList<PlayerState> players= new ArrayList<>();
+    
     private int direction=0; //0->forwards; 1->backwards;
     public Game(ArrayList<Client> clients){
         int id = 0;
@@ -39,7 +40,9 @@ public class Game extends Thread{  //to do: gestione turni, avvisa prox utente c
         for (PlayerState playerState : players) {
             playerState.notifySelfState();
         }
-    
+        
+        //si dice chi inizia
+        nextPlayer(null, players);
 
     }
     private Card getLastCard(){ //prendo l'ultima carta che ho buttato sul tavolo
@@ -87,6 +90,7 @@ public class Game extends Thread{  //to do: gestione turni, avvisa prox utente c
             NotifyCardChanged notifyCardChanged = new NotifyCardChanged();
             notifyCardChanged.card = card;
             updateAllPlayers(notifyCardChanged);
+            nextPlayer(client, players); //passo al prossimo giocatore
             
         }
            
@@ -98,17 +102,17 @@ public class Game extends Thread{  //to do: gestione turni, avvisa prox utente c
     public void nextPlayer(Client currentPlayer,ArrayList<PlayerState> players) {
         //prendo il giocatore attuale, vado al prossimo
         int c=0;
-        for (PlayerState p : players) {
-                if(p.client.equals(currentPlayer)){
-                   c++;
-                   break;
-                }
+        if(currentPlayer != null){ //se ho già iniziato il gioco
+            for (PlayerState p : players) {
+                    if(p.client.equals(currentPlayer)){
+                       c++;
+                       break;
+                    }
+            }
         }
 
         currentPlayer=players.get(c).client;
-      
         //dico al prox giocatore che è il suo turno  (isPlaying del giocatore a true)
-
         NotifyTurn notifyTurn = new NotifyTurn();
         updatePlayer(notifyTurn, currentPlayer);
     

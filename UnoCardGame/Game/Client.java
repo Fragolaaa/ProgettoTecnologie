@@ -16,7 +16,7 @@ public class Client extends Thread{  //ogni client è un thread
     private final ObjectOutputStream outputStream;
     private final ObjectInputStream inputStream;
     private final Socket socket;
-
+    private String nickname; //to do: impostare cose con nickname
     Game game;
 
     public boolean isListening = false;
