@@ -15,7 +15,7 @@ public class Game extends Thread{  //to do: gestione turni, avvisa prox utente c
     private final int numberOfStartingCards = 7;
 
     private ArrayList<PlayerState> players= new ArrayList<>();
-    
+    private Client currPlayer;
     private int direction=0; //0->forwards; 1->backwards;
     public Game(ArrayList<Client> clients){
         int id = 0;
@@ -106,20 +106,20 @@ public class Game extends Thread{  //to do: gestione turni, avvisa prox utente c
 
     }
     //per gestire i turni quando in modalità antioraria basta che giro il vettore...
-    public void nextPlayer(Client currentPlayer,ArrayList<PlayerState> players) {
+    public void nextPlayer(Client cp,ArrayList<PlayerState> players) {
         //prendo il giocatore attuale, vado al prossimo
         int c=0;
-        if(currentPlayer != null){ //se ho già iniziato il gioco
+        if(cp != null){ //se ho già iniziato il gioco
             for (PlayerState p : players) {
-                    if(p.client.equals(currentPlayer))
+                    if(p.client.equals(cp))
                         c=players.indexOf(p);    
             }
         }
 
-        currentPlayer=players.get(c).client;
+        currPlayer=players.get(c).client;
         //dico al prox giocatore che è il suo turno  (isPlaying del giocatore a true)
         NotifyTurn notifyTurn = new NotifyTurn();
-        updatePlayer(notifyTurn, currentPlayer);
+        updatePlayer(notifyTurn, currPlayer);
     
     }
 
@@ -143,7 +143,22 @@ public class Game extends Thread{  //to do: gestione turni, avvisa prox utente c
         client.sendNotify(notify);
     }
 
-    public void nextDraw(int i) {
+    public void nextDraw(int i) { //faccio pescare n carte al giocatore
+        nextPlayer(currPlayer, players);
+        for (PlayerState p : players) {
+            if(p.client.equals(currPlayer)){
+                for(int j=0;j<=i;j++){
+                    p.addCardToHand(deck.getTopCard());
+                }
+            }
+        }
+    }
 
+    public void reverse() { // rovescio l'arraylist
+        for (int i = 0; i < players.size() / 2; i++) {
+            PlayerState temp = players.get(i);
+            players.set(i, players.get(players.size() - i - 1));
+            players.set(players.size() - i - 1, temp);
+        }
     }
 }
