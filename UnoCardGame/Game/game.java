@@ -45,11 +45,13 @@ public class Game extends Thread{  //to do: gestione turni, avvisa prox utente c
         nextPlayer(null, players);
 
     }
+
     private Card getLastCard(){ //prendo l'ultima carta che ho buttato sul tavolo
         return downCards.get(downCards.size()-1);
     }
 
     private boolean checkCards(Card card1, Card card2){ //controllo se è possibile mettere a terra la carta
+
         //posso settare se: colore/numero uguale a quella prima o una cambio colore
         if(card1.color == card2.color || card1.color == -1){
             //ok colore uguale/cambio colore
@@ -104,10 +106,8 @@ public class Game extends Thread{  //to do: gestione turni, avvisa prox utente c
         int c=0;
         if(currentPlayer != null){ //se ho già iniziato il gioco
             for (PlayerState p : players) {
-                    if(p.client.equals(currentPlayer)){
-                       c++;
-                       break;
-                    }
+                    if(p.client.equals(currentPlayer))
+                        c=players.indexOf(p);    
             }
         }
 
@@ -122,6 +122,7 @@ public class Game extends Thread{  //to do: gestione turni, avvisa prox utente c
      * @param notify
      * @param client the client not to update
      */
+    
     private void updateAllPlayers(Notify notify, Client client){ //updates all clients except one
         for (PlayerState player : players) {
             if(!player.client.equals(client)) player.client.sendNotify(notify);
