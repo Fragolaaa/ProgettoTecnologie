@@ -42,11 +42,11 @@ public class Game extends Thread{
     
 
     }
-    private Card getLastCard(){
+    private Card getLastCard(){ //prendo l'ultima carta che ho buttato sul tavolo
         return downCards.get(downCards.size()-1);
     }
 
-    private boolean checkCards(Card card1, Card card2){
+    private boolean checkCards(Card card1, Card card2){ //controllo se è possibile mettere a terra la carta
     
         if(card1.color == card2.color || card1.color == -1){
             //ok colore uguale/cambio colore
@@ -73,7 +73,7 @@ public class Game extends Thread{
         }
     }
     
-    public void setCard(Client client, Card card) {
+    public void setCard(Client client, Card card) { //imposta la nuova carta
         //controllo validità carta
         Card lastCard= getLastCard();
         if(checkCards(card, lastCard)){
@@ -105,9 +105,9 @@ public class Game extends Thread{
         
     }
     public void nextPlayer(int currentPlayer,ArrayList<PlayerState> players) {
-        if(direction==0){
-
-        }}
+      
+    
+    }
     /**
      * @param notify
      * @param client the client not to update
@@ -123,7 +123,7 @@ public class Game extends Thread{
         }
     }
 
-    private void updatePlayer(Notify notify, Client client){
+    private void updatePlayer(Notify notify, Client client){ //updates a single player
         client.sendNotify(notify);
     }
 }
