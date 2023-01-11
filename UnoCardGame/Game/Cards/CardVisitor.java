@@ -2,7 +2,7 @@ package Game.Cards;
 
 import Game.Game;
 
-public class CardVisitor {
+public class CardVisitor { //to do: gestire cosa fanno le varie carte
     private final Game game;
 
     public CardVisitor(Game game) {

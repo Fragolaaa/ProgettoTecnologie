@@ -9,7 +9,7 @@ import Game.Cards.WildCards;
 import Game.Actions.*;
 import Game.Notifies.*;
 
-public class Game extends Thread{
+public class Game extends Thread{  //to do: gestione turni, avvisa prox utente che è il suo turno
     private final Deck deck = new Deck();
     private ArrayList<Card> downCards = new ArrayList<>();
     private final int numberOfStartingCards = 7;
@@ -47,7 +47,7 @@ public class Game extends Thread{
     }
 
     private boolean checkCards(Card card1, Card card2){ //controllo se è possibile mettere a terra la carta
-    
+        //posso settare se: colore/numero uguale a quella prima o una cambio colore
         if(card1.color == card2.color || card1.color == -1){
             //ok colore uguale/cambio colore
             return true;
@@ -92,22 +92,17 @@ public class Game extends Thread{
            
         else
             updatePlayer(new NotifyInvalidMove("Invalid card"), client);
-    
-
-         //controllare se posso settare la carta
-        //posso settare se: colore/numero uguale a quella prima o una cambio colore
-        
-        
-      
         //mandare la risposta al client se puo' o non puo' settare la carta
-       
-
-        
     }
-    public void nextPlayer(int currentPlayer,ArrayList<PlayerState> players) {
-      
+
+    public void nextPlayer(Client currentPlayer,ArrayList<PlayerState> players) {
+      int g=0;
+      for(int i=0;i<players.size();i++){
+        if(currentPlayer)
+      }
     
     }
+
     /**
      * @param notify
      * @param client the client not to update
