@@ -77,11 +77,11 @@ public class Game extends Thread{  //to do: gestione turni, avvisa prox utente c
         }
     }
     
-    public void setCard(Client client, Card card) { //imposta la nuova carta
+    public boolean setCard(Client client, Card card) { //imposta la nuova carta
         //controllo validità carta
         Card lastCard= getLastCard();
         if(checkCards(card, lastCard)){
-            card.accept(new CardVisitor(this));
+            card.accept(new CardVisitor(this, client));
             
             downCards.add(card); //l'ultima carta inserita e' sempre in posizione card.size() - 1
             
@@ -92,12 +92,18 @@ public class Game extends Thread{  //to do: gestione turni, avvisa prox utente c
             notifyCardChanged.card = card;
             updateAllPlayers(notifyCardChanged);
             nextPlayer(client, players); //passo al prossimo giocatore
+            return true;
             
         }
            
-        else
+        else{
+        
             updatePlayer(new NotifyInvalidMove("Invalid card"), client);
+            return false;
         //mandare la risposta al client se puo' o non puo' settare la carta
+        }
+            
+
     }
     //per gestire i turni quando in modalità antioraria basta che giro il vettore...
     public void nextPlayer(Client currentPlayer,ArrayList<PlayerState> players) {
@@ -135,5 +141,9 @@ public class Game extends Thread{  //to do: gestione turni, avvisa prox utente c
 
     private void updatePlayer(Notify notify, Client client){ //updates a single player
         client.sendNotify(notify);
+    }
+
+    public void nextDraw(int i) {
+
     }
 }
