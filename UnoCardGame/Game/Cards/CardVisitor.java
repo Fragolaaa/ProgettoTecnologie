@@ -15,7 +15,7 @@ public class CardVisitor { //to do: gestire cosa fanno le varie carte
     public void visit(ChangeColorCard ChangeColorCard){
         //il nuovo colore rispettare è....
         if(game.setCard(client, ChangeColorCard)){
-
+            //nulla.. già settato
         }
      
     }

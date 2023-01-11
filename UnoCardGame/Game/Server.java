@@ -36,10 +36,10 @@ public class Server {
     
                 client.start();
 
-                if(clients.size() == 4){ //to do: chiedi al client quanti giocatori vuole
-                    startGame();
-                }
-                //startGame();
+                // if(clients.size() == 4){ //to do: chiedi al client quanti giocatori vuole
+                //     startGame();
+                // }
+                startGame();
             }
         } catch (Exception e) {
             e.printStackTrace();

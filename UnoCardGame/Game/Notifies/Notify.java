@@ -1,5 +1,7 @@
 package Game.Notifies;
 
-public abstract class Notify {
+import java.io.Serializable;
+
+public abstract class Notify implements Serializable {
     
 }

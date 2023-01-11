@@ -14,5 +14,8 @@ public class ActionVisitor {
     public void visit(ActionSetCard actionSetCard) {
         game.setCard(client, actionSetCard.card);
     }
+
+    public void visit(ShoutUno shoutUno) {
+    }
     
 }

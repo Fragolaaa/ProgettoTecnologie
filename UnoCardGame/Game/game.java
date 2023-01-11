@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import Game.Cards.Card;
 import Game.Cards.CardVisitor;
+import Game.Cards.ChangeColorCard;
+import Game.Cards.ChangeColorCardDrawFour;
 import Game.Cards.NumberCard;
 import Game.Cards.WildCards;
 import Game.Actions.*;
@@ -54,7 +56,7 @@ public class Game extends Thread{  //to do: gestione turni, avvisa prox utente c
     private boolean checkCards(Card card1, Card card2){ //controllo se è possibile mettere a terra la carta
 
         //posso settare se: colore/numero uguale a quella prima o una cambio colore
-        if(card1.color == card2.color || card1.color == -1){
+        if(card1.color == card2.color || card1 instanceof ChangeColorCard || card1 instanceof ChangeColorCardDrawFour){
             //ok colore uguale/cambio colore
             return true;
         }
