@@ -94,11 +94,23 @@ public class Game extends Thread{  //to do: gestione turni, avvisa prox utente c
             updatePlayer(new NotifyInvalidMove("Invalid card"), client);
         //mandare la risposta al client se puo' o non puo' settare la carta
     }
+    //per gestire i turni quando in modalità antioraria basta che giro il vettore...
+    public void nextPlayer(Client currentPlayer,ArrayList<PlayerState> players) {
+        //prendo il giocatore attuale, vado al prossimo
+        int c=0;
+        for (PlayerState p : players) {
+                if(p.client.equals(currentPlayer)){
+                   c++;
+                   break;
+                }
+        }
 
-    public void nextPlayer(PlayerState currentPlayer,ArrayList<PlayerState> players) {
-        //prendo il giocatore attuale, vado al prossimo 
+        currentPlayer=players.get(c).client;
       
-      //dico al prox giocatore che è il suo turno
+        //dico al prox giocatore che è il suo turno  (isPlaying del giocatore a true)
+
+        NotifyTurn notifyTurn = new NotifyTurn();
+        updatePlayer(notifyTurn, currentPlayer);
     
     }
 
