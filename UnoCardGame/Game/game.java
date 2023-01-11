@@ -95,11 +95,10 @@ public class Game extends Thread{  //to do: gestione turni, avvisa prox utente c
         //mandare la risposta al client se puo' o non puo' settare la carta
     }
 
-    public void nextPlayer(Client currentPlayer,ArrayList<PlayerState> players) {
-      int g=0;
-      for(int i=0;i<players.size();i++){
-        if(currentPlayer)
-      }
+    public void nextPlayer(PlayerState currentPlayer,ArrayList<PlayerState> players) {
+        //prendo il giocatore attuale, vado al prossimo 
+      
+      //dico al prox giocatore che è il suo turno
     
     }
 

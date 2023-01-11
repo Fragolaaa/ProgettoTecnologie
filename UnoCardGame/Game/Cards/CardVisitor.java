@@ -14,7 +14,7 @@ public class CardVisitor { //to do: gestire cosa fanno le varie carte
      
     }
      
-    public void visit(ChangeColorCardDrawFour  changeColorCardDrawFour){
+    public void visit(ChangeColorCardDrawFour changeColorCardDrawFour){
 
     }
 
