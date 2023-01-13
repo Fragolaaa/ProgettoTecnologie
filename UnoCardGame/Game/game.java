@@ -19,8 +19,7 @@ public class Game implements Serializable{
 
     private ArrayList<PlayerState> players= new ArrayList<>();
     private Client currPlayer;
-    private int direction=0; //0->forwards; 1->backwards;
-    
+
     public Game(ArrayList<Client> clients){
         int id = 0;
         for (Client client : clients) {
