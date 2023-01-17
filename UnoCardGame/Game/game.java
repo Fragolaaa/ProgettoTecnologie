@@ -1,6 +1,7 @@
 package Game;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import Game.Cards.*;
@@ -73,17 +74,23 @@ public class Game extends Thread{
         clientSocket.sendMessageToClient(message);
     }
 
-    public void nextPlayer(Client cp,HashMap<String, Player> players) {
+    public void nextPlayer(Client cp,LinkedHashMap<String, Player> players) {
         //prendo il giocatore attuale, vado al prossimo
         int c=0;
+        int pos=0;
         if(cp != null){ //se ho già iniziato il gioco
             for (HashMap.Entry<String, Player> p : players.entrySet()) {
-                    if(p.clientSocket.equals(cp)){
-                        if(players.indexOf(p)==(players.size()-1))
+                    if(p.getValue().getClientSocket().equals(cp)){
+                        if(players.get( (players.keySet().toArray())[pos] )==players.get( (players.keySet().toArray())[players.size()-1]))
                             c=0;
                         else
-                            c=players.indexOf(p); 
+                            c=pos;
+                        // if(players.indexOf(p)==(players.size()-1))
+                        //     c=0;
+                        // else
+                        //     c=players.indexOf(p); 
                     } 
+                pos++;
             }
         }
 
