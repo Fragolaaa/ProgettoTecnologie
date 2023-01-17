@@ -10,6 +10,9 @@ import java.util.TreeMap;
 import Game.Cards.*;
 import Game.Cards.colorcards.ColorChangerCard;
 import Game.Cards.colorcards.ColorChangerCardDrawFour;
+import Game.Cards.wildcards.WildCardDrawTwo;
+import Game.Cards.wildcards.WildCardReverse;
+import Game.Cards.wildcards.WildCardSkipTurn;
 
 public class Game extends Thread{
     private final int MAX_CARDS = 7;
@@ -109,10 +112,10 @@ public class Game extends Thread{
         TreeMap<String,Player> tmap = new TreeMap<>(players);
         players.clear();
         players.putAll(tmap.descendingMap());
-    // for (int i = 0; i < players.size() / 2; i++) {
-    //     Client temp = players.get(i);
-    //     players.set(i, players.get(players.size() - i - 1));
-    //     players.set(players.size() - i - 1, temp);
+        // for (int i = 0; i < players.size() / 2; i++) {
+        //     Client temp = players.get(i);
+        //     players.set(i, players.get(players.size() - i - 1));
+        //     players.set(players.size() - i - 1, temp);
         // }
     }
 
@@ -199,19 +202,29 @@ public class Game extends Thread{
     }
 
     public void cardManager(Card card){
+        downCards.add(card);
         if(card instanceof NumberCard){
             //nulla, metti la carta e basta
-            downCards.add(card);
         }
         else if(card instanceof ColorChangerCard){
-            downCards.add(card);
             //colore già selezionato
         }
         else if(card instanceof ColorChangerCardDrawFour){
-            downCards.add(card);
             nextPlayer(currentPlayer, players); //passo al prossimo giocatore
             drawCards(4, currentPlayer); //pesco 4 
         }
+        else if(card instanceof WildCardDrawTwo){
+            nextPlayer(currentPlayer, players); //passo al prossimo giocatore
+            drawCards(2, currentPlayer); //pesco 2
+        }
+        else if(card instanceof WildCardReverse){
+            reverse();
+            nextPlayer(currentPlayer, players);
+        }
+        else if(card instanceof WildCardSkipTurn){
+            skipPlayer();
+        }
+
     }
 
 }
