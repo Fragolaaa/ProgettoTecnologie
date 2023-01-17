@@ -7,8 +7,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.UUID;
 
-import Game.Cards.Card;
-import Game.Cards.colorcards.ColorChangerCardDrawFour;
+import Network.Message;
 
 public class Client extends Thread{
 
@@ -48,18 +47,18 @@ public class Client extends Thread{
     @Override
     public void run(){
         while (running) {
-            String message = null;
+            Message message = null;
 
             try {
-                message = (String) in.readObject();
+                message = (Message) in.readObject();
             } catch (ClassNotFoundException | IOException e) {
                 running = false;
             }
             if(message != null){
-                String[] fields = message.split(";");
+                String[] fields = message.getArg().split(";");
                 String cmd = fields[0];
                 System.out.println("Comando: " + cmd);
-                System.out.println("Messaggio: " + message);
+                System.out.println("Messaggio: " + message.getArg());
                 switch (cmd) {
                     case "RST":
                         close();
@@ -71,10 +70,12 @@ public class Client extends Thread{
                     case "START":
                         game.start();
                     case "SETCARD":
-                        game.setCard(this,fields[1]);
+                    if(message.getCards().size() == 1)
+                        game.setCard(this,message.getCards().get(0));
+                    else sendMessage(new Message("ERROR;Not implemented function", null));
                     break;
                     default:
-                        sendMessage("ERROR;Not implemented function");
+                        sendMessage(new Message("ERROR;Not implemented function", null));
                         break;
                 }
             }
@@ -84,7 +85,7 @@ public class Client extends Thread{
         }
     }
 
-    private void sendMessage(String message) {
+    private void sendMessage(Message message) {
         try {
             out.writeObject(message);
         } catch (IOException e) {
@@ -94,21 +95,21 @@ public class Client extends Thread{
 
     private void close(){
         System.out.println("Client: " + clientSocket + " disconnected");
-        try {
-            clientSocket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        closeSocket();
     }
 
     private void reset(){
         System.out.println("Client: " + clientSocket + " disconnected forcefully");
-        sendMessage("RST;Server Error");
-        try {
-            clientSocket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        closeSocket();
+    }
+
+    private void closeSocket(){
+        if(!clientSocket.isClosed())
+            try {
+                clientSocket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
     }
 
     public void sendMessageToClient(Object message){
