@@ -1,5 +1,6 @@
-package uno.server.cards.wildcards;
+package Game.Cards.wildcards;
 
+import Game.Cards.Card;
 public class WildCardDrawTwo extends WildCard{
     public static final String className = "WildCardDrawTwo";
     protected final String marker = "+2";

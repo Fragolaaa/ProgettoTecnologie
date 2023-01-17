@@ -12,7 +12,7 @@ public class Game extends Thread{
     private ArrayList<Card> downCards = new ArrayList<>();
     private boolean waiting = true;
     private boolean playing = false;
-
+    private Client currentPlayer;
     public Game(){ //game starts
 
     }
@@ -73,5 +73,37 @@ public class Game extends Thread{
         clientSocket.sendMessageToClient(message);
     }
 
+    public void nextPlayer(Client cp,HashMap<String, Player> players) {
+        //prendo il giocatore attuale, vado al prossimo
+        int c=0;
+        if(cp != null){ //se ho già iniziato il gioco
+            for (HashMap.Entry<String, Player> p : players.entrySet()) {
+                    if(p.clientSocket.equals(cp)){
+                        if(players.indexOf(p)==(players.size()-1))
+                            c=0;
+                        else
+                            c=players.indexOf(p); 
+                    } 
+            }
+        }
+
+        currentPlayer=players.get(c).clientSocket;
+        //dico al prox giocatore che è il suo turno  (isPlaying del giocatore a true)
+        NotifyTurn notifyTurn = new NotifyTurn();
+        sendToPlayer(currentPlayer, "It's your turn");
+    
+    }
+
+    public void reverse(){
+
+    }
+
+    public void drawCards(int NumCardsToDraw,Player currentPlayer){
+
+    }
+
+    private Card getLastCard(){ //prendo l'ultima carta che ho buttato sul tavolo
+    return downCards.get(downCards.size()-1);
+    }
 
 }

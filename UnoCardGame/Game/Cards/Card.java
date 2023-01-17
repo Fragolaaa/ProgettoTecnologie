@@ -1,4 +1,4 @@
-package uno.server.cards;
+package Game.Cards;
 
 import java.io.Serializable;
 import java.util.ArrayList;
