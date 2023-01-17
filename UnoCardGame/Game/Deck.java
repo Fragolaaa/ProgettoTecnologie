@@ -1,64 +1,47 @@
 package Game;
-
-import java.io.Serializable;
-
-//il server gestisce i deck di tutti i giocatori
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import Game.Cards.*;
+import Game.Cards.wildcards.*;
+import Game.Cards.colorcards.*;
 
-public class Deck implements Serializable{
+public class Deck {
     private ArrayList<Card> deck = new ArrayList<>();
 
-    public Deck() {
-      
+    public Deck(){
+        for(int i = 0; i < 4; i++){//per ogni colore
 
-        // deck ha tutte le carte da 0 a 9 per ogni colore
-
-        for (int i = 0; i < 4; i++)
-            for (int j = 0; j <= 9; j++)
-                deck.add(new NumberCard(j,i));
-
-        // deck ha tutte le carte +2
-        for (int i = 0; i < 4; i++) {
-            WildCardDrawTwo wd = new WildCardDrawTwo();
-            wd.color = i;
-            deck.add(wd);
-        }
-        // deck ha tutte le carte skip
-        for (int i = 0; i < 4; i++) {
-            WildCardSkip wd = new WildCardSkip();
-            wd.color = i;
-            deck.add(wd);
-        }
-        // deck ha tutte le carte reverse
-        for (int i = 0; i < 4; i++) {
-            WildCardReverse wd = new WildCardReverse();
-            wd.color = i;
-            deck.add(wd);
+            deck.add(new NumberCard(i, 0)); //1 carta per lo 0
+            for(int j = 1; j <= 9; j++){ //2 carte per ogni numero da 1 a 9
+                deck.add(new NumberCard(i, j));
+                deck.add(new NumberCard(i, j));
+            }
+            for(int j = 0; j<2; j++){//2 wildcard per ogni tipo
+                deck.add(new WildCardDrawTwo(j));   
+                deck.add(new WildCardReverse(j));
+                deck.add(new WildCardSkipTurn(j));
+            }
+            deck.add(new ColorChangerCard());//1 carta cambia colore
+            deck.add(new ColorChangerCardDrawFour());//1 carta pesca quattro
         }
 
-        // deck ha tutte le carte cambio colore
-        // deck ha tutte le carte +4
-        for(int i=0;i<2;i++){
-            deck.add(new ChangeColorCardDrawFour());
-            deck.add(new ChangeColorCard());
-        }
-
-
-        // deck completo
-
-        
+        shuffle();
+        //for (Card card : deck) System.out.println(card.toString());
     }
 
-    public void shuffle() {
+    public void shuffle(){
         Collections.shuffle(deck);
     }
 
-    public Card getTopCard() {
-        Card topCard = deck.get(deck.size() - 1);
-        deck.remove(deck.size() - 1);
-        return topCard;
+    public ArrayList<Card> popCard(int quantity){ //rimuove n carte dal mazzo
+        ArrayList<Card> cards = new ArrayList<>();
+        if(deck.size() - quantity >= 0 && quantity > 0){
+            for(int i = 0; i < quantity; i++){
+                cards.add(deck.get(deck.size() - 1));
+                deck.remove(deck.size() - 1);
+            }
+        }
+        return cards; //ritorna vuoto se le carte non sono abbastanza
     }
 }
