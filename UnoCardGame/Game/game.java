@@ -94,9 +94,8 @@ public class Game extends Thread{
             }
         }
 
-        currentPlayer=players.get(c).clientSocket;
-        //dico al prox giocatore che è il suo turno  (isPlaying del giocatore a true)
-        NotifyTurn notifyTurn = new NotifyTurn();
+        currentPlayer=players.get( (players.keySet().toArray())[c] ).getClientSocket();
+        //dico al prox giocatore che è il suo turno 
         sendToPlayer(currentPlayer, "It's your turn");
     
     }
