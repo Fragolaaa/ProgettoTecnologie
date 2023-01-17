@@ -1,61 +1,112 @@
 //gestisce quel che deve fare il client 
-
 package Game;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.net.Socket;
+import java.util.UUID;
 
+public class Client extends Thread{
 
-import Game.Actions.*;
-import Game.Notifies.*;
+    private final ObjectOutputStream out;
+    private final ObjectInputStream in;
+    private final Socket clientSocket;
+    private final String id;
+    private boolean running = true;
+    private boolean playing = false;
+    private Game game;
 
-public class Client extends Thread implements Serializable{  //ogni client è un thread
+    public boolean isPlaying() {
+        return playing;
+    }
 
-    public final int PORT;
-    private final ObjectOutputStream outputStream;
-    private final ObjectInputStream inputStream;
-    private final Socket socket;
-    private String nickname; //to do: impostare cose con nickname
-    Game game;
+    public Game getGame(){
+        return game;
+    }
 
-    public boolean isListening = false;
+    public void startPlaying(String name) {
+        String message = "";
+        if(!playing){
+            sendMessage(message = game.addPlayer(id, this, name));
+            if(message.split(";")[0] == "OK") playing = true;
+        }else sendMessage("ERROR;You are already playing");
+    }
 
-
-    public Client(int PORT, ObjectOutputStream outputStream, ObjectInputStream inputStream, Socket socket) {
-        this.PORT = PORT;
-        this.outputStream = outputStream;
-        this.inputStream = inputStream;
-        this.socket = socket;
-        isListening = true;
+    public Client(ObjectOutputStream out, ObjectInputStream in, Socket clientSocket, Game game) {
+        this.out = out;
+        this.in = in;
+        this.clientSocket = clientSocket;
+        this.game = game;
+        id = UUID.randomUUID().toString(); //ID univoco della connessione al client (diverso dal nome)
     }
 
     @Override
     public void run(){
-        //manda un msg al client vuoto
-        //se non risponde listening = false
-        while(isListening){
-            Action action = null;
+        while (running) {
+            String message = null;
 
             try {
-                action = (Action) inputStream.readObject();
+                message = (String) in.readObject();
             } catch (ClassNotFoundException | IOException e) {
-                e.printStackTrace();
+                running = false;
             }
-
-            action.accept(new ActionVisitor(this, game));
+            if(message != null){
+                String[] fields = message.split(";");
+                String cmd = fields[0];
+                System.out.println("Comando: " + cmd);
+                System.out.println("Messaggio: " + message);
+                switch (cmd) {
+                    case "RST":
+                        close();
+                        running = false;
+                        break;
+                    case "JOIN":
+                        startPlaying(fields[1]);
+                        break;
+                    case "START":
+                        game.start();
+                    default:
+                        sendMessage("ERROR;Not implemented function");
+                        break;
+                }
+            }
+        }
+        if(clientSocket != null){
+            reset();
         }
     }
 
-    public void setGame(Game game) {
-        this.game = game;
+    private void sendMessage(String message) {
+        try {
+            out.writeObject(message);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void sendNotify(Notify notify) {
+    private void close(){
+        System.out.println("Client: " + clientSocket + " disconnected");
         try {
-            outputStream.writeObject(notify);
+            clientSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void reset(){
+        System.out.println("Client: " + clientSocket + " disconnected forcefully");
+        sendMessage("RST;Server Error");
+        try {
+            clientSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendMessageToClient(Object message){
+        try {
+            out.writeObject(message);
         } catch (IOException e) {
             e.printStackTrace();
         }
