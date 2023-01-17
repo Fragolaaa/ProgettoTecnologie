@@ -5,10 +5,12 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import Game.Cards.*;
+import Game.Cards.colorcards.ColorChangerCard;
+import Game.Cards.colorcards.ColorChangerCardDrawFour;
 
 public class Game extends Thread{
     private final int MAX_CARDS = 7;
-    private HashMap<String, Player> players = new HashMap<>();
+    private LinkedHashMap<String, Player> players = new LinkedHashMap();
     private Deck deck = new Deck();
     private ArrayList<Card> downCards = new ArrayList<>();
     private boolean waiting = true;
@@ -96,7 +98,7 @@ public class Game extends Thread{
 
         currentPlayer=players.get( (players.keySet().toArray())[c] ).getClientSocket();
         //dico al prox giocatore che è il suo turno 
-        sendToPlayer(currentPlayer, "It's your turn");
+        sendToPlayer(currentPlayer, "It's your turn to play!");
     
     }
 
@@ -104,14 +106,93 @@ public class Game extends Thread{
 
     }
 
-    public void drawCards(int NumCardsToDraw,Player currentPlayer){
+    public void drawCards(int NumCardsToDraw,Client currentPlayer){
         ArrayList<Card> cardsToDraw = deck.popCard(NumCardsToDraw); //creo arraylist di n carte prese dal deck
-        currentPlayer.addToHand(cardsToDraw);
+        for (HashMap.Entry<String, Player> p : players.entrySet()) {
+            if(p.getValue().getClientSocket().equals(currentPlayer))
+                p.getValue().addToHand(cardsToDraw);
+        }
 
     }
 
     private Card getLastCard(){ //prendo l'ultima carta che ho buttato sul tavolo
     return downCards.get(downCards.size()-1);
+    }
+    
+    private boolean checkCards(Card card1, Card card2){ //controllo se è possibile mettere a terra la carta
+
+        //posso settare se: colore/numero uguale a quella prima o una cambio colore
+        if(card1.getColor() == card2.getColor() || card1 instanceof ColorChangerCard || card1 instanceof ColorChangerCardDrawFour){
+            //ok colore uguale/cambio colore
+            return true;
+        }
+        else if(card1.getClass() == card2.getClass()){
+            //controlla se numbercard
+
+            if(card1 instanceof NumberCard){
+                NumberCard nCard1 = (NumberCard)card1;
+                NumberCard nCard2 = (NumberCard)card2;
+                return nCard1.getValue() == nCard2.getValue(); 
+            }
+            else{
+                //ok
+                return true;
+            }
+    
+        }
+        else{
+            //not ok
+            return false;
+        }
+    }
+
+    public boolean setCard(Client client, Card card) { //imposta la nuova carta
+        //controllo validità carta
+        Card lastCard = getLastCard();
+        if(checkCards(card, lastCard)){
+            // card.accept(new CardVisitor(this, client));
+            
+            //l'ultima carta inserita e' sempre in posizione card.size() - 1
+           
+            // NotifyPlayerHandChanged notifyPlayerHandChanged = new NotifyPlayerHandChanged();
+            // notifyPlayerHandChanged.howManyCardsChanged = -1;
+            // updateAllPlayers(notifyPlayerHandChanged, client);
+            // NotifyCardChanged notifyCardChanged = new NotifyCardChanged();
+            // notifyCardChanged.card = card;
+            // updateAllPlayers(notifyCardChanged);
+            // nextPlayer(client, players); //passo al prossimo giocatore
+            // return true;
+            cardManager(card);//gli passo la carta
+            sendMessageBroadcast(client+" just put down a card, next player's turn will begin soon");
+            nextPlayer(currentPlayer,players);
+            cardManager(card);//gli passo la carta
+            return true;
+        }
+           
+        else{
+        
+            sendToPlayer(currentPlayer, "Invalid move!");
+            return false;
+        //mandare la risposta al client se puo' o non puo' settare la carta
+        }
+            
+
+    }
+
+    public void cardManager(Card card){
+        if(card instanceof NumberCard){
+            //nulla, metti la carta e basta
+            downCards.add(card);
+        }
+        else if(card instanceof ColorChangerCard){
+            downCards.add(card);
+            //colore già selezionato
+        }
+        else if(card instanceof ColorChangerCardDrawFour){
+            downCards.add(card);
+            nextPlayer(currentPlayer, players); //passo al prossimo giocatore
+            drawCards(4, currentPlayer); //pesco 4 
+        }
     }
 
 }
