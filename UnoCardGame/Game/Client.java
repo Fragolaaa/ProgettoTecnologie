@@ -70,16 +70,7 @@ public class Client extends Thread{
                     case "START":
                         game.start();
                     case "SETCARD":
-                       
-                        String[] campiCarta = fields[1].split("-");//type-value-color
-                        if(campiCarta[0].equals("DRAWFOUR")){
-                            Card card = new Card() {
-                                card.color=campiCarta[2];
-                            };
-                            card = (ColorChangerCardDrawFour)card;
-                        }
-                        
-                        game.setCard(this, card);
+                        game.setCard(this,fields[1]);
                     break;
                     default:
                         sendMessage("ERROR;Not implemented function");
