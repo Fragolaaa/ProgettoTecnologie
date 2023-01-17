@@ -1,6 +1,5 @@
 package Game.Cards.wildcards;
 
-import Game.Cards.Card;
 public class WildCardReverse extends WildCard{
     public static final String className = "WildCardReverse";
     protected final String marker = "<-";

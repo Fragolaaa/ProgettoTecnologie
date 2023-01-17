@@ -63,6 +63,7 @@ public class Server{
     public void run(ServerSocket serverSocket){
         try {
             Game game = new Game();
+            game.start();
             while(true){
                 Socket clientSocket;
                 

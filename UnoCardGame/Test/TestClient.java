@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import Game.Cards.Card;
+import Network.Message;
 
 public class TestClient {
     private static final Scanner scanner = new Scanner(System.in);
@@ -29,38 +30,52 @@ public class TestClient {
 
     private void play(){
         //while(true);
+        Message message = new Message("START", null);
         try {
-            out.writeObject("START");
+            out.writeObject(message);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Object res = null;
+        Message res = null;
         try {
-            res = in.readObject();
+            res = (Message) in.readObject();
         } catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
         }
-        ArrayList<Card> hand = (ArrayList<Card>) res;
-        System.out.println(Card.drawCLI(hand));
+        if(res != null){
+            String[] fields = res.getArg().split(";");
+            String cmd = fields[0];
+            System.out.println("Comando: " + cmd);
+            System.out.println("Messaggio: " + res.getArg());
+            ArrayList<Card> hand = new ArrayList<>();
+            switch (cmd) {
+                case "SETHAND":
+                    hand = res.getCards();
+                    System.out.println(Card.drawCLI(hand));
+                default:
+                    //sendMessage("ERROR;Not implemented function");
+                    break;
+            }
+        }
     }
 
     private boolean join(){
         System.out.println("Inserisci il tuo nome:");
         String name = scanner.nextLine();
         try {
-            out.writeObject("JOIN;"+name);
+            out.writeObject(new Message("JOIN;"+name, null));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        String response = null;
+        Message response = null;
         try {
-            response = (String) in.readObject();
+            response = (Message) in.readObject();
         } catch (ClassNotFoundException | IOException e) {
             e.printStackTrace();
         }
         System.out.println(response);
-        String[] fields = response.split(";");
+        String[] fields = response.getArg().split(";");
         String cmd = fields[0];
         switch (cmd) {
             case "OK":

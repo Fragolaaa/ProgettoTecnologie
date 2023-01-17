@@ -7,7 +7,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.UUID;
 
-import Game.Network.Message;
+import Network.Message;
 
 public class Client extends Thread{
 
@@ -48,6 +48,7 @@ public class Client extends Thread{
     public void run(){
         while (running) {
             Message message = null;
+
             try {
                 message = (Message) in.readObject();
             } catch (ClassNotFoundException | IOException e) {
@@ -119,4 +120,3 @@ public class Client extends Thread{
         }
     }
 }
-
