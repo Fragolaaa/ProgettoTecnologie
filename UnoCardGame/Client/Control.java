@@ -3,7 +3,6 @@ package Client;
 public abstract class Control extends Card{ 
 
 
-
     public void sameColor(Card color){
         public int colore = Deck.getTopCard;
         if(colore == color) {
