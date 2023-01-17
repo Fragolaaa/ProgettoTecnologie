@@ -13,6 +13,7 @@ import Game.Cards.colorcards.ColorChangerCardDrawFour;
 import Game.Cards.wildcards.WildCardDrawTwo;
 import Game.Cards.wildcards.WildCardReverse;
 import Game.Cards.wildcards.WildCardSkipTurn;
+import Game.Network.Message;
 
 public class Game extends Thread{
     private final int MAX_CARDS = 7;
@@ -36,7 +37,7 @@ public class Game extends Thread{
         downCards.addAll(deck.popCard(1)); //mette una carta sul tavolo per iniziare
         for (Map.Entry<String, Player> player : players.entrySet()) {
             player.getValue().addToHand(deck.popCard(MAX_CARDS)); //ogni giocatore pesca 7 carte
-            sendToPlayer(player.getValue().getClientSocket(), player.getValue().getHand());
+            sendToPlayer(player.getValue().getClientSocket(), new Message("SETHAND", player.getValue().getHand()));
         }
         playing = true;
     }
@@ -72,13 +73,13 @@ public class Game extends Thread{
         return players.size();
     }
 
-    private void sendMessageBroadcast(Object message){
+    private void sendMessageBroadcast(Message message){
         for (Map.Entry<String, Player> player : players.entrySet()) {
             player.getValue().getClientSocket().sendMessageToClient(message); //ogni giocatore pesca 7 carte
         }
     }
 
-    private void sendToPlayer(Client clientSocket, Object message) {
+    private void sendToPlayer(Client clientSocket, Message message) {
         clientSocket.sendMessageToClient(message);
     }
 
@@ -104,7 +105,7 @@ public class Game extends Thread{
 
         currentPlayer=players.get( (players.keySet().toArray())[c] ).getClientSocket();
         //dico al prox giocatore che è il suo turno 
-        sendToPlayer(currentPlayer, "It's your turn to play!");
+        sendToPlayer(currentPlayer, new Message("It's your turn to play!", null));
     
     }
 
@@ -122,7 +123,7 @@ public class Game extends Thread{
 
     public void skipPlayer() {
         nextPlayer(currentPlayer, players);
-        sendToPlayer(currentPlayer, "Your turn has been denied.");//the turn has been denied, player turn must be skipped
+        sendToPlayer(currentPlayer, new Message("Your turn has been denied.", null));//the turn has been denied, player turn must be skipped
         nextPlayer(currentPlayer, players);//next player
     }
 
@@ -185,7 +186,7 @@ public class Game extends Thread{
             // nextPlayer(client, players); //passo al prossimo giocatore
             // return true;
             cardManager(card);//gli passo la carta
-            sendMessageBroadcast(client+" just put down a card, next player's turn will begin soon");
+            sendMessageBroadcast(new Message(client+" just put down a card, next player's turn will begin soon", null));
             nextPlayer(currentPlayer,players);
             cardManager(card);//gli passo la carta
             return true;
@@ -193,7 +194,7 @@ public class Game extends Thread{
            
         else{
         
-            sendToPlayer(currentPlayer, "Invalid move!");
+            sendToPlayer(currentPlayer, new Message("Invalid move!", null));
             return false;
         //mandare la risposta al client se puo' o non puo' settare la carta
         }
