@@ -1,7 +1,6 @@
-package uno.server.cards.wildcards;
+package Game.Cards.wildcards;
 
-import uno.server.cards.Card;
-
+import Game.Cards.Card;
 public abstract class WildCard extends Card{
     public WildCard(int color) {
         super(color);

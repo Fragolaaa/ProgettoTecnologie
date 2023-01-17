@@ -1,4 +1,4 @@
-package uno.server.cards.colorcards;
+package Game.Cards.colorcards;
 
 public class ColorChangerCard extends ColorCard{
     public static final String className = "ColorChangerCard";

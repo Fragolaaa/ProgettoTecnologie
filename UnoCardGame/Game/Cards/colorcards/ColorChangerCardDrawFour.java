@@ -1,5 +1,6 @@
-package uno.server.cards.colorcards;
+package Game.Cards.colorcards;
 
+import Game.Cards.Card;
 public class ColorChangerCardDrawFour extends ColorCard{
     public static final String className = "ColorChangerCardDrawFour";
     protected final String marker = "+4";

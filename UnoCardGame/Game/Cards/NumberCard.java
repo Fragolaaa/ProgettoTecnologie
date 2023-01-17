@@ -1,4 +1,4 @@
-package uno.server.cards;
+package Game.Cards;
 
 public class NumberCard extends Card{
     public static final String className = "NumberCard";

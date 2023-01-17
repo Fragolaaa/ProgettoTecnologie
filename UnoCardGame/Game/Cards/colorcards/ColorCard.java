@@ -1,6 +1,6 @@
-package uno.server.cards.colorcards;
+package Game.Cards.colorcards;
 
-import uno.server.cards.Card;
+import Game.Cards.Card;
 
 public abstract class ColorCard extends Card{
     public ColorCard(){

@@ -1,5 +1,6 @@
-package uno.server.cards.wildcards;
+package Game.Cards.wildcards;
 
+import Game.Cards.Card;
 public class WildCardSkipTurn extends WildCard{
     public static final String className = "WildCardSkipTurn";
     protected final String marker = "@";
