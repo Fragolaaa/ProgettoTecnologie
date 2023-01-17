@@ -106,6 +106,8 @@ public class Game extends Thread{
     }
 
     public void drawCards(int NumCardsToDraw,Player currentPlayer){
+        ArrayList<Card> cardsToDraw = deck.popCard(NumCardsToDraw); //creo arraylist di n carte prese dal deck
+        currentPlayer.addToHand(cardsToDraw);
 
     }
 
