@@ -51,7 +51,10 @@ public abstract class Card implements Serializable{
         String string = "";
         ArrayList<String[]> draws = new ArrayList<>();
         for (Card card : cards) {
-            draws.add(card.generateDraw());
+            if(card instanceof NumberCard)
+                draws.add(((NumberCard)card).generateDraw());
+            else
+                draws.add(card.generateDraw());
         }
         for(int i = 0; i < cardH; i++){
             for (String[] draw : draws) {
