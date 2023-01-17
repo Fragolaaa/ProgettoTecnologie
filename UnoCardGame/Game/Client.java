@@ -48,7 +48,6 @@ public class Client extends Thread{
     public void run(){
         while (running) {
             Message message = null;
-
             try {
                 message = (Message) in.readObject();
             } catch (ClassNotFoundException | IOException e) {
