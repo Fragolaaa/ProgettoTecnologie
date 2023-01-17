@@ -73,11 +73,5 @@ public class Game extends Thread{
         clientSocket.sendMessageToClient(message);
     }
 
-    public void reverseCard(){
-        for (int i = 0; i < players.size() / 2; i++) {
-            Player temp = players.get(i);
-            players.set(i, players.get(players.size() - i - 1));
-            players.set(players.size() - i - 1, temp);
-        }
-    }
+
 }
