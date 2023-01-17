@@ -9,8 +9,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import UnoCardGame.Server.cards.Card;
-import UnoCardGame.Server.cards.wildcards.WildCardDrawTwo;
+import Game.Cards.Card;
 
 public class TestClient {
     private static final Scanner scanner = new Scanner(System.in);
@@ -80,7 +79,7 @@ public class TestClient {
         return false;
     }
 
-    public Client(ObjectOutputStream out, ObjectInputStream in){
+    public TestClient(ObjectOutputStream out, ObjectInputStream in){
         this.out = out;
         this.in = in;
         playing = true;
@@ -115,7 +114,7 @@ public class TestClient {
             e.printStackTrace();
         }
 
-        Client client = new Client(objectOutputStream, objectInputStream);
+        TestClient client = new TestClient(objectOutputStream, objectInputStream);
         client.run();
 
         try {
