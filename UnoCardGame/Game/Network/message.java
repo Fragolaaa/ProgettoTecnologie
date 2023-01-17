@@ -5,11 +5,11 @@ import java.util.ArrayList;
 
 import Game.Cards.Card;
 
-public class message implements Serializable{
+public class Message implements Serializable{
     private String arg;
     private ArrayList<Card> cards;
 
-    public message(String arg, ArrayList<Card> cards){
+    public Message(String arg, ArrayList<Card> cards){
         this.arg = arg == null ? "" : arg;
         this.cards = cards == null ? new ArrayList<Card>() : cards;
     }

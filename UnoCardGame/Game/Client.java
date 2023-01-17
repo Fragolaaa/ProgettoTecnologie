@@ -29,11 +29,12 @@ public class Client extends Thread{
     }
 
     public void startPlaying(String name) {
-        String message = "";
+        Message message = new Message(null, null);
         if(!playing){
-            sendMessage(message = game.addPlayer(id, this, name));
-            if(message.split(";")[0] == "OK") playing = true;
-        }else sendMessage("ERROR;You are already playing");
+            message.setArg(game.addPlayer(id, this, name));
+            sendMessage(message);
+            if(message.getArg().split(";")[0] == "OK") playing = true;
+        }else sendMessage(new Message("ERROR;You are already playing", null));
     }
 
     public Client(ObjectOutputStream out, ObjectInputStream in, Socket clientSocket, Game game) {
