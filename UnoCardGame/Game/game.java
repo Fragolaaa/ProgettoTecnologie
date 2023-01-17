@@ -1,8 +1,11 @@
 package Game;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import Game.Cards.*;
 import Game.Cards.colorcards.ColorChangerCard;
@@ -102,9 +105,25 @@ public class Game extends Thread{
     
     }
 
-    public void reverse(){
-
+    public void reverse() { // rovescio la linkedHashMap
+        TreeMap<String,Player> tmap = new TreeMap<>(players);
+        players.clear();
+        players.putAll(tmap.descendingMap());
+    // for (int i = 0; i < players.size() / 2; i++) {
+    //     Client temp = players.get(i);
+    //     players.set(i, players.get(players.size() - i - 1));
+    //     players.set(players.size() - i - 1, temp);
+        // }
     }
+
+
+    public void skipPlayer() {
+        nextPlayer(currentPlayer, players);
+        sendToPlayer(currentPlayer, "Your turn has been denied.");//the turn has been denied, player turn must be skipped
+        nextPlayer(currentPlayer, players);//next player
+    }
+
+
 
     public void drawCards(int NumCardsToDraw,Client currentPlayer){
         ArrayList<Card> cardsToDraw = deck.popCard(NumCardsToDraw); //creo arraylist di n carte prese dal deck
