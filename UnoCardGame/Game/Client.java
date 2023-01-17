@@ -66,6 +66,9 @@ public class Client extends Thread{
                         break;
                     case "START":
                         game.start();
+                    case "SETCARD":
+                        game.setCard(this, card);
+                    break;
                     default:
                         sendMessage("ERROR;Not implemented function");
                         break;
