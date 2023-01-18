@@ -15,6 +15,7 @@ import Game.Cards.wildcards.WildCardReverse;
 import Game.Cards.wildcards.WildCardSkipTurn;
 import Game.Network.Message;
 
+
 public class Game extends Thread{
     private final int MAX_CARDS = 7;
     private LinkedHashMap<String, Player> players = new LinkedHashMap();

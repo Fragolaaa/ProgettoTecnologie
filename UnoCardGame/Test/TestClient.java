@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import Game.Cards.Card;
-import Network.Message;
+import Game.Network.Message;
 
 public class TestClient {
     private static final Scanner scanner = new Scanner(System.in);
