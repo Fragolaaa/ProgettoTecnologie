@@ -106,7 +106,7 @@ public class Game extends Thread{
 
         currentPlayer=players.get( (players.keySet().toArray())[c] ).getClientSocket();
         //dico al prox giocatore che è il suo turno 
-        sendToPlayer(currentPlayer, new Message("It's your turn to play!", null));
+        sendToPlayer(currentPlayer, new Message("PLAY;It's your turn to play!", null));
     
     }
 
@@ -124,7 +124,7 @@ public class Game extends Thread{
 
     public void skipPlayer() {
         nextPlayer(currentPlayer, players);
-        sendToPlayer(currentPlayer, new Message("Your turn has been denied.", null));//the turn has been denied, player turn must be skipped
+        sendToPlayer(currentPlayer, new Message("DENIED;Your turn has been denied.", null));//the turn has been denied, player turn must be skipped
         nextPlayer(currentPlayer, players);//next player
     }
 
