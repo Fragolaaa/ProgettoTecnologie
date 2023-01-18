@@ -13,7 +13,7 @@ import Game.Cards.colorcards.ColorChangerCardDrawFour;
 import Game.Cards.wildcards.WildCardDrawTwo;
 import Game.Cards.wildcards.WildCardReverse;
 import Game.Cards.wildcards.WildCardSkipTurn;
-import Network.Message;
+import Game.Network.Message;
 
 public class Game extends Thread{
     private final int MAX_CARDS = 7;

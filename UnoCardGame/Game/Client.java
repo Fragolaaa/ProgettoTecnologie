@@ -7,7 +7,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.UUID;
 
-import Network.Message;
+import Game.Network.Message;
 
 public class Client extends Thread{
 
